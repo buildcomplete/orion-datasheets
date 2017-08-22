@@ -75,19 +75,26 @@ namespace moo_data_sheets.Views
 
 			// Function for creating the color I like for the morale table as function
 			// of the strike size.
-			Func<string, Brush> getStrikeSizeColor = (strike) =>
+			Action<int, Border, TextBlock> applyStrikeStyle = (strike, border, textBlock) =>
 			{
-				Dictionary<string, Brush> colors = new Dictionary<string, Brush>()
+				Dictionary<int, Brush> bgColors = new Dictionary<int, Brush>()
 				{
-					{"0", new SolidColorBrush(Color.FromArgb(155, 183, 255, 205)) },
-					{"1", new SolidColorBrush(Color.FromArgb(155, 252, 232, 178)) },
-					{"2", new SolidColorBrush(Color.FromArgb(155, 244, 199, 195)) },
-					{"3", new SolidColorBrush(Color.FromArgb(155, 255, 153, 0)) }
+					{0, new SolidColorBrush(Color.FromArgb(155, 183, 255, 205)) },
+					{1, new SolidColorBrush(Color.FromArgb(155, 252, 232, 178)) },
+					{2, new SolidColorBrush(Color.FromArgb(155, 244, 199, 195)) },
+					{3, new SolidColorBrush(Color.FromArgb(155, 255, 153, 0)) }
 				};
 
-				return colors.ContainsKey(strike)
-						? colors[strike]
+				border.Background = bgColors.ContainsKey(strike)
+						? bgColors[strike]
 						: new SolidColorBrush(Color.FromArgb(255, 255, 0, 255));
+				textBlock.Foreground = strike < 4
+					? new SolidColorBrush(Colors.Black)
+					: new SolidColorBrush(Colors.Yellow);
+
+
+				border.BorderBrush = new SolidColorBrush(Colors.Black);
+
 			};
 
 			List<Border> activeElements = new List<Border>();
@@ -97,61 +104,63 @@ namespace moo_data_sheets.Views
 			{
 				for (int j = 0; j < population.Count; ++j)
 				{
-					string strikeSize = ((100 - morales[i]) * population[j] / 100).ToString();
+					int strikeSize = ((100 - morales[i]) * population[j] / 100);
 
-					var item = new Border
-					{
-						Background = getStrikeSizeColor(strikeSize),
-						BorderBrush = new SolidColorBrush(Colors.Black)
-				};
+					var item = new Border();
 					activeElements.Add(item);
 
-					item.Child = CreateTextBlockCenteredText(strikeSize); ;
+					var textItem = CreateTextBlockCenteredText(strikeSize.ToString());
+					item.Child = textItem;
 					Grid.SetRow(item, j + 1);
 					Grid.SetColumn(item, i + 1);
 					MoraleGrid.Children.Add(item);
+
+					applyStrikeStyle(strikeSize, item, textItem);
+
 				}
 			}
-			Action<Border, Border[]> AddHighLight = (I, F) =>
+			Action<Border> AddHighLight = (I) =>
 			{
-				double w = 0.5;
+				var leftOfI = activeElements
+					.Where(X =>
+						Grid.GetColumn(X) < Grid.GetColumn(I)
+						&& Grid.GetRow(X) == Grid.GetRow(I))
+					.ToArray();
+
+				var aboveI = activeElements
+					.Where(X =>
+						Grid.GetColumn(X) == Grid.GetColumn(I)
+						&& Grid.GetRow(X) < Grid.GetRow(I))
+					.ToArray();
+
+				var w = 0.5;
+				var neutralBorderThickness = new Thickness();
+				var aboveBorderThickness = new Thickness(w, 0, w, 0);
+				var leftBorderThickness = new Thickness(0, w, 0, w);
+				var actualFocusBorderThickness = new Thickness(0, 0, w, w);
+
 				I.PointerEntered += (o, e) =>
 				{
-					foreach (var item in F)
-					{
-						if (Grid.GetColumn(item) > Grid.GetColumn(I)
-							|| Grid.GetRow(item) > Grid.GetRow(I))
-							continue;
-
-						if (I == item)
-							item.BorderThickness = new Thickness(0, 0, w, w);
-						else if (Grid.GetColumn(item) == Grid.GetColumn(I))
-							item.BorderThickness = new Thickness(w, 0, w, 0);
-						else
-							item.BorderThickness = new Thickness(0, w, 0, w);
-
-					}
+					I.BorderThickness = actualFocusBorderThickness;
+					foreach (var item in aboveI)
+						item.BorderThickness = aboveBorderThickness;
+					foreach (var item in leftOfI)
+						item.BorderThickness = leftBorderThickness;
 				};
 
 				I.PointerExited += (o, e) =>
 				{
-					foreach (var item in F)
-					{
-						item.BorderThickness = new Thickness(0);
-
-					}
+					I.BorderThickness = neutralBorderThickness;
+					foreach (var item in aboveI)
+						item.BorderThickness = neutralBorderThickness;
+					foreach (var item in leftOfI)
+						item.BorderThickness = neutralBorderThickness;
 				};
 			};
 
 			foreach (var item in activeElements)
 			{
-				var bestFriends = activeElements
-					.Where(X =>
-						Grid.GetColumn(X) == Grid.GetColumn(item)
-						|| Grid.GetRow(X) == Grid.GetRow(item))
-					.ToArray();
-
-				AddHighLight(item, bestFriends);
+				AddHighLight(item);
 			}
 		}
 	}
