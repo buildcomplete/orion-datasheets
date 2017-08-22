@@ -43,38 +43,6 @@ namespace moo_data_sheets.Views
 			foreach (var item in population)
 				MoraleGrid.RowDefinitions.Add(new RowDefinition()); // Header
 
-
-			//for (int i = 1; i < MoraleGrid.ColumnDefinitions.Count; i++)
-			//{
-			//	var border = new Border { Background = new SolidColorBrush(Colors.Transparent) };
-			//	MoraleGrid.Children.Add(border);
-
-			//	Grid.SetColumn(border, i);
-			//	Grid.SetRow(border, 1);
-			//	Grid.SetRowSpan(border, MoraleGrid.RowDefinitions.Count - 1);
-			//	border.PointerEntered += (o, e) =>
-			//		border.Background = new SolidColorBrush(Colors.Tomato);
-
-			//	border.PointerExited += (o, e) =>
-			//		border.Background = new SolidColorBrush(Colors.Transparent);
-			//}
-
-			//for (int i = 1; i < MoraleGrid.RowDefinitions.Count; i++)
-			//{
-			//	var border = new Border { Background = new SolidColorBrush(Colors.Transparent) };
-			//	MoraleGrid.Children.Add(border);
-
-			//	Grid.SetColumn(border, 1);
-			//	Grid.SetRow(border, i);
-			//	Grid.SetColumnSpan(border, MoraleGrid.ColumnDefinitions.Count - 1);
-			//	border.PointerEntered += (o, e) =>
-			//		border.Background = new SolidColorBrush(Colors.Tomato);
-
-			//	border.PointerExited += (o, e) =>
-			//		border.Background = new SolidColorBrush(Colors.Transparent);
-			//}
-
-
 			// Function for creating a textblock with center alignment
 			// I wonder if this could be made in xaml
 			Func<string, TextBlock> CreateTextBlockCenteredText = (text) =>
@@ -107,39 +75,83 @@ namespace moo_data_sheets.Views
 
 			// Function for creating the color I like for the morale table as function
 			// of the strike size.
-			Func<int, Border> getStrikeSizeBorder = (strike) =>
+			Func<string, Brush> getStrikeSizeColor = (strike) =>
 			{
-				Dictionary<int, Brush> colors = new Dictionary<int, Brush>()
+				Dictionary<string, Brush> colors = new Dictionary<string, Brush>()
 				{
-					{0, new SolidColorBrush(Windows.UI.Color.FromArgb(155, 183, 255, 205)) },
-					{1, new SolidColorBrush(Windows.UI.Color.FromArgb(155, 252, 232, 178)) },
-					{2, new SolidColorBrush(Windows.UI.Color.FromArgb(155, 244, 199, 195)) },
-					{3, new SolidColorBrush(Windows.UI.Color.FromArgb(155, 255, 153, 0)) }
+					{"0", new SolidColorBrush(Color.FromArgb(155, 183, 255, 205)) },
+					{"1", new SolidColorBrush(Color.FromArgb(155, 252, 232, 178)) },
+					{"2", new SolidColorBrush(Color.FromArgb(155, 244, 199, 195)) },
+					{"3", new SolidColorBrush(Color.FromArgb(155, 255, 153, 0)) }
 				};
 
-				return new Border
-				{
-					Background = colors.ContainsKey(strike)
+				return colors.ContainsKey(strike)
 						? colors[strike]
-						: new SolidColorBrush(Windows.UI.Color.FromArgb(255, 255, 0, 255))
-				};
+						: new SolidColorBrush(Color.FromArgb(255, 255, 0, 255));
 			};
 
+			List<Border> activeElements = new List<Border>();
 			// Fill the table with the actual values
 			// The trick is the casting to int the floors the value.
 			for (int i = 0; i < morales.Count; ++i)
 			{
 				for (int j = 0; j < population.Count; ++j)
 				{
-					int strikeSize = (100 - morales[i]) * population[j] / 100;
+					string strikeSize = ((100 - morales[i]) * population[j] / 100).ToString();
 
-					var item = getStrikeSizeBorder(strikeSize);
-					item.Child = CreateTextBlockCenteredText(strikeSize.ToString()); ;
+					var item = new Border
+					{
+						Background = getStrikeSizeColor(strikeSize),
+						BorderBrush = new SolidColorBrush(Colors.Black)
+				};
+					activeElements.Add(item);
 
+					item.Child = CreateTextBlockCenteredText(strikeSize); ;
 					Grid.SetRow(item, j + 1);
 					Grid.SetColumn(item, i + 1);
 					MoraleGrid.Children.Add(item);
 				}
+			}
+			Action<Border, Border[]> AddHighLight = (I, F) =>
+			{
+				double w = 0.5;
+				I.PointerEntered += (o, e) =>
+				{
+					foreach (var item in F)
+					{
+						if (Grid.GetColumn(item) > Grid.GetColumn(I)
+							|| Grid.GetRow(item) > Grid.GetRow(I))
+							continue;
+
+						if (I == item)
+							item.BorderThickness = new Thickness(0, 0, w, w);
+						else if (Grid.GetColumn(item) == Grid.GetColumn(I))
+							item.BorderThickness = new Thickness(w, 0, w, 0);
+						else
+							item.BorderThickness = new Thickness(0, w, 0, w);
+
+					}
+				};
+
+				I.PointerExited += (o, e) =>
+				{
+					foreach (var item in F)
+					{
+						item.BorderThickness = new Thickness(0);
+
+					}
+				};
+			};
+
+			foreach (var item in activeElements)
+			{
+				var bestFriends = activeElements
+					.Where(X =>
+						Grid.GetColumn(X) == Grid.GetColumn(item)
+						|| Grid.GetRow(X) == Grid.GetRow(item))
+					.ToArray();
+
+				AddHighLight(item, bestFriends);
 			}
 		}
 	}
