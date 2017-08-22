@@ -44,36 +44,35 @@ namespace moo_data_sheets.Views
 				MoraleGrid.RowDefinitions.Add(new RowDefinition()); // Header
 
 
+			//for (int i = 1; i < MoraleGrid.ColumnDefinitions.Count; i++)
+			//{
+			//	var border = new Border { Background = new SolidColorBrush(Colors.Transparent) };
+			//	MoraleGrid.Children.Add(border);
 
-			for (int i = 1; i < MoraleGrid.ColumnDefinitions.Count; i++)
-			{
-				var border = new Border { Background = new SolidColorBrush(Colors.Transparent) };
-				MoraleGrid.Children.Add(border);
+			//	Grid.SetColumn(border, i);
+			//	Grid.SetRow(border, 1);
+			//	Grid.SetRowSpan(border, MoraleGrid.RowDefinitions.Count - 1);
+			//	border.PointerEntered += (o, e) =>
+			//		border.Background = new SolidColorBrush(Colors.Tomato);
 
-				Grid.SetColumn(border, i);
-				Grid.SetRow(border, 1);
-				Grid.SetRowSpan(border, MoraleGrid.RowDefinitions.Count - 1);
-				border.PointerEntered += (o, e) =>
-					border.Background = new SolidColorBrush(Colors.Tomato);
+			//	border.PointerExited += (o, e) =>
+			//		border.Background = new SolidColorBrush(Colors.Transparent);
+			//}
 
-				border.PointerExited += (o, e) =>
-					border.Background = new SolidColorBrush(Colors.Transparent);
-			}
+			//for (int i = 1; i < MoraleGrid.RowDefinitions.Count; i++)
+			//{
+			//	var border = new Border { Background = new SolidColorBrush(Colors.Transparent) };
+			//	MoraleGrid.Children.Add(border);
 
-			for (int i = 1; i < MoraleGrid.RowDefinitions.Count; i++)
-			{
-				var border = new Border { Background = new SolidColorBrush(Colors.Transparent) };
-				MoraleGrid.Children.Add(border);
+			//	Grid.SetColumn(border, 1);
+			//	Grid.SetRow(border, i);
+			//	Grid.SetColumnSpan(border, MoraleGrid.ColumnDefinitions.Count - 1);
+			//	border.PointerEntered += (o, e) =>
+			//		border.Background = new SolidColorBrush(Colors.Tomato);
 
-				Grid.SetColumn(border, 1);
-				Grid.SetRow(border, i);
-				Grid.SetColumnSpan(border, MoraleGrid.ColumnDefinitions.Count - 1);
-				border.PointerEntered += (o, e) =>
-					border.Background = new SolidColorBrush(Colors.Tomato);
-
-				border.PointerExited += (o, e) =>
-					border.Background = new SolidColorBrush(Colors.Transparent);
-			}
+			//	border.PointerExited += (o, e) =>
+			//		border.Background = new SolidColorBrush(Colors.Transparent);
+			//}
 
 
 			// Function for creating a textblock with center alignment
@@ -139,7 +138,7 @@ namespace moo_data_sheets.Views
 
 					Grid.SetRow(item, j + 1);
 					Grid.SetColumn(item, i + 1);
-					//MoraleGrid.Children.Add(item);
+					MoraleGrid.Children.Add(item);
 				}
 			}
 		}
