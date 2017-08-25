@@ -85,3 +85,8 @@
 /moo-data-sheets/bin/x86/Debug/AppX/Assets/planets/planet_barren.png
 /moo-data-sheets/bin/x86/Debug/AppX/Assets/planets/planet_arid.png
 /moo-data-sheets/bin/x86
+/Models/bin
+/Models/obj
+/UnitTestModels/bin/x86/Debug
+*.pfx
+/UnitTestModels/obj

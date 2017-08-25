@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace moo_data_sheets.Models
+namespace Models
 {
 	public class Planet
 	{
