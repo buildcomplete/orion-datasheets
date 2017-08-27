@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -25,9 +27,6 @@ namespace moo_data_sheets.Views
 		public WeaponAnalysisView()
 		{
 			this.InitializeComponent();
-
-			// Seems wrong, with this all the async seems wasted...
-			ViewModel.Initialize().Wait();
 		}
 	}
 }

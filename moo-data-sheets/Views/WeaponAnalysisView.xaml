@@ -15,6 +15,7 @@
 			<RowDefinition></RowDefinition>
 		</Grid.RowDefinitions>
 		<StackPanel>
+			<TextBlock Text="{x:Bind ViewModel.LoadErrorMessage, Mode=OneWay}" />
 			<ComboBox ItemsSource="{x:Bind ViewModel.Weapons}" SelectedItem="{x:Bind ViewModel.SelectedWeapon, Mode=TwoWay}" />
 			<Border Background="Black">
 				<StackPanel>
