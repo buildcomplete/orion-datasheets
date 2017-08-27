@@ -53,6 +53,9 @@
 					<Views:MoraleView />
 				</Grid>
 			</PivotItem>
+			<PivotItem Header="Weapons selection">
+				<ComboBox ItemsSource="{x:Bind Planets}"></ComboBox>
+			</PivotItem>
 		</Pivot>
 
 	</Grid>

@@ -3,6 +3,7 @@ using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models;
 using Models.Repository;
+using System.Threading.Tasks;
 
 namespace UnitTestModels
 {
@@ -23,16 +24,14 @@ namespace UnitTestModels
 				Type = WeaponType.Energy
 			};
 
-			double ArmorRatingNoArmor = 0;
-			Assert.AreEqual(0.83d, laserCannon.Dps(ArmorRatingNoArmor), 0.005);
+			double ArmorResilianceNoArmor = 0;
+			Assert.AreEqual(0.83d, laserCannon.DpsVs(ArmorResilianceNoArmor), 0.0051);
 
-			// No damage vs titanium armor with standard laser canon
-			double ArmorRatingTitanium = 5;
-			Assert.AreEqual(0, laserCannon.Dps(ArmorRatingTitanium), 0.005);
+			double ArmorResilianceTitanium = 5;
+			Assert.AreEqual(0.63, laserCannon.DpsVs(ArmorResilianceTitanium), 0.0051);
 
-			// And ofcourse, no damage vs tritanium armor with standard laser canon
-			double ArmorRatingTritanium = 10;
-			Assert.AreEqual(0, laserCannon.Dps(ArmorRatingTritanium), 0.005);
+			double ArmorResilianceTritanium = 10;
+			Assert.AreEqual(0.63, laserCannon.DpsVs(ArmorResilianceTritanium), 0.0051);
 		}
 
 		[TestMethod]
@@ -49,38 +48,38 @@ namespace UnitTestModels
 				Type = WeaponType.Energy
 			};
 
-			double ArmorRatingNoArmor = 0;
-			Assert.AreEqual(1.29d, neutronBlaster.Dps(ArmorRatingNoArmor), 0.005);
+			double ArmorResilianceNoArmor = 0;
+			Assert.AreEqual(1.29d, neutronBlaster.DpsVs(ArmorResilianceNoArmor), 0.0051);
 
 			// full damage vs titanium armor with neutron blaster
-			double ArmorRatingTitanium = 5;
-			Assert.AreEqual(1.29, neutronBlaster.Dps(ArmorRatingTitanium), 0.005);
+			double ArmorResilianceTitanium = 5;
+			Assert.AreEqual(1.29, neutronBlaster.DpsVs(ArmorResilianceTitanium), 0.0051);
 
 			// reduced damage with tritanium armor
-			double ArmorRatingTritanium = 10;
-			Assert.AreEqual(0.57f, neutronBlaster.Dps(ArmorRatingTritanium), 0.005);
+			double ArmorResilianceTritanium = 10;
+			Assert.AreEqual(0.96f, neutronBlaster.DpsVs(ArmorResilianceTritanium), 0.0051);
 		}
 
 		[TestMethod]
-		public void TestCalculateDPSMassDriverFromRepository()
+		public async Task TestCalculateDPSMassDriverFromRepository()
 		{
 			var repo = new WeaponRepository();
-			repo.Initialize().Wait();
+			await repo.Initialize();
 			Weapon massDriver = repo.Weapons
 				.Find(X => X.Name == "Mass Driver");
 
 			Assert.IsNotNull(massDriver);
 
-			double ArmorRatingNoArmor = 0;
-			Assert.AreEqual(1.50d, massDriver.Dps(ArmorRatingNoArmor), 0.005);
+			double ArmorResilianceNoArmor = 0;
+			Assert.AreEqual(1.50d, massDriver.DpsVs(ArmorResilianceNoArmor), 0.0051);
 
-			// full damage vs titanium armor with neutron blaster
-			double ArmorRatingTitanium = 5;
-			Assert.AreEqual(1.50, massDriver.Dps(ArmorRatingTitanium), 0.005);
+			// Increased! damage vs titanium armor with mass driver
+			double ArmorResilianceTitanium = 5;
+			Assert.AreEqual(3.00, massDriver.DpsVs(ArmorResilianceTitanium), 0.0051);
 
-			// reduced damage with neutronium armor
-			double ArmorRatingNeutronium = 15;
-			Assert.AreEqual(0.88f, massDriver.Dps(ArmorRatingNeutronium), 0.005);
+			// reduced damage with mass driver
+			double ArmorResilianceNeutronium = 15;
+			Assert.AreEqual(1.13f, massDriver.DpsVs(ArmorResilianceNeutronium), 0.0051);
 		}
 	}
 }
