@@ -54,7 +54,7 @@
 				</Grid>
 			</PivotItem>
 			<PivotItem Header="Weapons selection">
-				<ComboBox ItemsSource="{x:Bind Planets}"></ComboBox>
+				<Views:WeaponAnalysisView></Views:WeaponAnalysisView>
 			</PivotItem>
 		</Pivot>
 

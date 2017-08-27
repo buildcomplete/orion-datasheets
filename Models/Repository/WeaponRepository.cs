@@ -14,7 +14,7 @@ namespace Models.Repository
 
 		public async Task Initialize()
 		{
-			var data = await CsvHelper.GetLines("ms-appx:///Models/Assets/Weapon-data.csv");
+			var data = await CsvHelper.GetLines("ms-appx:///Models/Data/Weapon-data.csv");
 			foreach (var item in data.Skip(1))
 			{
 				var tokens = item.Trim().Split(',');
