@@ -23,6 +23,16 @@ namespace moo_data_sheets.ViewModels
 		public string ArmorPenetration { get => _weapon.ArmorPenetration.ToString("0.00"); }
 		public string ShieldPiercing { get => _weapon.ShieldPiercing ? "Yes": "No"; }
 
+		public double DamageVsArmor(double armorResilience)
+		{
+			return _weapon.DamageVs(armorResilience);
+		}
+
+		public double DpsVsArmor(double armorResilience)
+		{
+			return _weapon.DpsVs(armorResilience);
+		}
+
 		public string ImageFile
 		{
 			get
@@ -35,7 +45,6 @@ namespace moo_data_sheets.ViewModels
 						{"Graviton Cannon", "graviton_beam" },
 						{"Ion Pulse Beam", "ion_pulse_cannon" },
 						{"Plasma Beam", "plasma_cannon" },
-						//{"Distruptor Cannon", "disruptor_cannon" },
 						{"Proton Torpedo", "proton_torpedoes" },
 						{"Plasma Torpedo", "plasma_torpedoes" },
 					};
