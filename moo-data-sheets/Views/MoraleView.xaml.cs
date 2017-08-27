@@ -119,6 +119,8 @@ namespace moo_data_sheets.Views
 
 				}
 			}
+
+			Stack<Border> ModifiedBorders = new Stack<Border>();
 			Action<Border> AddHighLight = (I) =>
 			{
 				var leftOfI = activeElements
@@ -141,20 +143,24 @@ namespace moo_data_sheets.Views
 
 				I.PointerEntered += (o, e) =>
 				{
-					I.BorderThickness = actualFocusBorderThickness;
-					foreach (var item in aboveI)
-						item.BorderThickness = aboveBorderThickness;
-					foreach (var item in leftOfI)
-						item.BorderThickness = leftBorderThickness;
-				};
+					// Restore state on previously modified borders
+					while (ModifiedBorders.Count != 0)
+						ModifiedBorders.Pop().BorderThickness = neutralBorderThickness;
 
-				I.PointerExited += (o, e) =>
-				{
-					I.BorderThickness = neutralBorderThickness;
+					I.BorderThickness = actualFocusBorderThickness;
+					ModifiedBorders.Push(I);
+
 					foreach (var item in aboveI)
-						item.BorderThickness = neutralBorderThickness;
+					{
+						item.BorderThickness = aboveBorderThickness;
+						ModifiedBorders.Push(item);
+					}
+
 					foreach (var item in leftOfI)
-						item.BorderThickness = neutralBorderThickness;
+					{
+						item.BorderThickness = leftBorderThickness;
+						ModifiedBorders.Push(item);
+					}
 				};
 			};
 

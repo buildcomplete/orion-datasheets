@@ -51,11 +51,11 @@ namespace UnitTestModels
 			double ArmorResilianceNoArmor = 0;
 			Assert.AreEqual(1.29d, neutronBlaster.DpsVs(ArmorResilianceNoArmor), 0.0051);
 
-			// full damage vs titanium armor with neutron blaster
+			// full damage vs Titanium armor with neutron blaster
 			double ArmorResilianceTitanium = 5;
 			Assert.AreEqual(1.29, neutronBlaster.DpsVs(ArmorResilianceTitanium), 0.0051);
 
-			// reduced damage with tritanium armor
+			// reduced damage with Tritanium armor
 			double ArmorResilianceTritanium = 10;
 			Assert.AreEqual(0.96f, neutronBlaster.DpsVs(ArmorResilianceTritanium), 0.0051);
 		}
@@ -73,11 +73,11 @@ namespace UnitTestModels
 			double ArmorResilianceNoArmor = 0;
 			Assert.AreEqual(1.50d, massDriver.DpsVs(ArmorResilianceNoArmor), 0.0051);
 
-			// Increased! damage vs titanium armor with mass driver
+			// Increased! damage vs Titanium armor with mass driver
 			double ArmorResilianceTitanium = 5;
 			Assert.AreEqual(3.00, massDriver.DpsVs(ArmorResilianceTitanium), 0.0051);
 
-			// reduced damage with mass driver
+			// reduced damage with mass driver against Neutronium armor
 			double ArmorResilianceNeutronium = 15;
 			Assert.AreEqual(1.13f, massDriver.DpsVs(ArmorResilianceNeutronium), 0.0051);
 		}
