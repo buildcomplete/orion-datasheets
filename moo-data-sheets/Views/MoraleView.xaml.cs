@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Devices.Input;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
@@ -120,8 +121,17 @@ namespace moo_data_sheets.Views
 				}
 			}
 
+			var neutralBorderThickness = new Thickness();
+
 			Stack<Border> ModifiedBorders = new Stack<Border>();
-			Action<Border> AddHighLight = (I) =>
+			// Restore state on previously modified borders
+			Action RestoreNeutralBorder = () =>
+			{
+				while (ModifiedBorders.Count != 0)
+					ModifiedBorders.Pop().BorderThickness = neutralBorderThickness;
+			};
+
+			Action<Border> EnableHighLight = (I) =>
 			{
 				var leftOfI = activeElements
 					.Where(X =>
@@ -136,16 +146,16 @@ namespace moo_data_sheets.Views
 					.ToArray();
 
 				var w = 0.5;
-				var neutralBorderThickness = new Thickness();
 				var aboveBorderThickness = new Thickness(w, 0, w, 0);
 				var leftBorderThickness = new Thickness(0, w, 0, w);
 				var actualFocusBorderThickness = new Thickness(0, 0, w, w);
 
 				I.PointerEntered += (o, e) =>
 				{
-					// Restore state on previously modified borders
-					while (ModifiedBorders.Count != 0)
-						ModifiedBorders.Pop().BorderThickness = neutralBorderThickness;
+					// For touch, the PointerExited event is not raised, 
+					// so we have to restore neutral borders here
+					if (e.Pointer.PointerDeviceType != PointerDeviceType.Mouse)
+						RestoreNeutralBorder();
 
 					I.BorderThickness = actualFocusBorderThickness;
 					ModifiedBorders.Push(I);
@@ -162,11 +172,20 @@ namespace moo_data_sheets.Views
 						ModifiedBorders.Push(item);
 					}
 				};
+
+				// When using mouse.
+				// Ensure the highlight doesn't linger when exiting the morale grid.
+				// For touch, it is more convenient that the marked items stays highlighted
+				I.PointerExited += (s, e) =>
+				{
+					if (e.Pointer.PointerDeviceType == PointerDeviceType.Mouse)
+						RestoreNeutralBorder();
+				};
 			};
 
 			foreach (var item in activeElements)
 			{
-				AddHighLight(item);
+				EnableHighLight(item);
 			}
 		}
 	}
