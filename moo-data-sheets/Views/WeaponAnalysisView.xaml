@@ -17,7 +17,30 @@
 		<StackPanel>
 			<ComboBox ItemsSource="{x:Bind ViewModel.Weapons}" SelectedItem="{x:Bind ViewModel.SelectedWeapon, Mode=TwoWay}" />
 			<Border Background="Black">
-				<TextBlock Foreground="White" Text="{x:Bind ViewModel.SelectedWeapon, Mode=OneWay}" />
+				<StackPanel>
+					<TextBlock Foreground="White" Text="{x:Bind ViewModel.SelectedWeapon.Name, Mode=OneWay}" />
+					<Image HorizontalAlignment="Left" Stretch="Uniform" Height="48" Source="{x:Bind ViewModel.SelectedWeapon.ImageFile, Mode=OneWay}" />
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Foreground="White" Text="Cooldown: " />
+						<TextBlock Foreground="White" Text="{x:Bind ViewModel.SelectedWeapon.Cooldown, Mode=OneWay}" />
+					</StackPanel>
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Foreground="White" Text="Damage: " />
+						<TextBlock Foreground="White" Text="{x:Bind ViewModel.SelectedWeapon.Damage, Mode=OneWay}" />
+					</StackPanel>
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Foreground="White" Text="DamageProcs: " />
+						<TextBlock Foreground="White" Text="{x:Bind ViewModel.SelectedWeapon.DamageProcs, Mode=OneWay}" />
+					</StackPanel>
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Foreground="White" Text="Armor Penetration: " />
+						<TextBlock Foreground="White" Text="{x:Bind ViewModel.SelectedWeapon.ArmorPenetration, Mode=OneWay}" />
+					</StackPanel>
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Foreground="White" Text="Shield Piercing: " />
+						<TextBlock Foreground="White" Text="{x:Bind ViewModel.SelectedWeapon.ShieldPiercing, Mode=OneWay}" />
+					</StackPanel>
+				</StackPanel>
 			</Border>
 		</StackPanel>
 	</Grid>

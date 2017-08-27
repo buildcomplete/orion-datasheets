@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 
 namespace moo_data_sheets.ViewModels
 {
@@ -18,8 +19,12 @@ namespace moo_data_sheets.ViewModels
 		public WeaponViewModel SelectedWeapon
 		{
 			get => _selectedWeapon;
-			set => SetProperty(ref _selectedWeapon, value);
+			set 
+			{
+				SetProperty(ref _selectedWeapon, value);
+			}
 		}
+		
 		public async Task Initialize()
 		{
 			var repo = new WeaponRepository();
@@ -30,6 +35,15 @@ namespace moo_data_sheets.ViewModels
 			}
 
 			SelectedWeapon = Weapons[0];
-		}		
+
+			//PropertyChanged += (s, e) =>
+			//{
+			//	if (e.PropertyName == "SelectedWeapon")
+			//	{
+			//		SelectedWeapon.PublishAll();
+			//	}
+			//};
+
+		}
 	}
 }
