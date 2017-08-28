@@ -5,59 +5,62 @@
     xmlns:local="using:moo_data_sheets.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
+	xmlns:lvc="using:LiveCharts.Uwp"
+	mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
 
 	<Grid>
 		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition></RowDefinition>
 		</Grid.RowDefinitions>
 		<StackPanel>
 			<TextBlock Text="{x:Bind ViewModel.LoadErrorMessage, Mode=OneWay}" />
 			<ComboBox ItemsSource="{x:Bind ViewModel.Weapons}" SelectedItem="{x:Bind ViewModel.SelectedWeapon, Mode=TwoWay}" />
-			<Border Background="Black">
+			<Border >
 				<StackPanel>
-					<TextBlock Foreground="White" Text="{x:Bind ViewModel.SelectedWeapon.Name, Mode=OneWay}" />
+					<TextBlock  Text="{x:Bind ViewModel.SelectedWeapon.Name, Mode=OneWay}" />
 					<Image HorizontalAlignment="Left" Stretch="Uniform" Height="48" Source="{x:Bind ViewModel.SelectedWeapon.ImageFile, Mode=OneWay}" />
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Foreground="White" Text="Cooldown: " />
-						<TextBlock Foreground="White" Text="{x:Bind ViewModel.SelectedWeapon.Cooldown, Mode=OneWay}" />
+						<TextBlock  Text="Cooldown: " />
+						<TextBlock  Text="{x:Bind ViewModel.SelectedWeapon.Cooldown, Mode=OneWay}" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Foreground="White" Text="Damage: " />
-						<TextBlock Foreground="White" Text="{x:Bind ViewModel.SelectedWeapon.Damage, Mode=OneWay}" />
+						<TextBlock  Text="Damage: " />
+						<TextBlock  Text="{x:Bind ViewModel.SelectedWeapon.Damage, Mode=OneWay}" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Foreground="White" Text="DamageProcs: " />
-						<TextBlock Foreground="White" Text="{x:Bind ViewModel.SelectedWeapon.DamageProcs, Mode=OneWay}" />
+						<TextBlock  Text="DamageProcs: " />
+						<TextBlock  Text="{x:Bind ViewModel.SelectedWeapon.DamageProcs, Mode=OneWay}" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Foreground="White" Text="Armor Penetration: " />
-						<TextBlock Foreground="White" Text="{x:Bind ViewModel.SelectedWeapon.ArmorPenetration, Mode=OneWay}" />
+						<TextBlock  Text="Armor Penetration: " />
+						<TextBlock  Text="{x:Bind ViewModel.SelectedWeapon.ArmorPenetration, Mode=OneWay}" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Foreground="White" Text="Shield Piercing: " />
-						<TextBlock Foreground="White" Text="{x:Bind ViewModel.SelectedWeapon.ShieldPiercing, Mode=OneWay}" />
-					</StackPanel>
-					
-					<StackPanel Orientation="Horizontal">
-						<TextBlock Foreground="White" Text="Armor rating" />
-						<ComboBox Foreground="White" ItemsSource="{x:Bind ViewModel.ArmorTypes, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.SelectedArmor, Mode=TwoWay}"  />
+						<TextBlock  Text="Shield Piercing: " />
+						<TextBlock  Text="{x:Bind ViewModel.SelectedWeapon.ShieldPiercing, Mode=OneWay}" />
 					</StackPanel>
 
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Foreground="White" Text="Damage VS Armor: " />
-						<TextBlock Foreground="White" Text="{x:Bind ViewModel.DamageVsArmor, Mode=OneWay}" />
+						<TextBlock  Text="Armor rating" />
+						<ComboBox  ItemsSource="{x:Bind ViewModel.ArmorTypes, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.SelectedArmor, Mode=TwoWay}"  />
 					</StackPanel>
 
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Foreground="White" Text="Dps VS Armor: " />
-						<TextBlock Foreground="White" Text="{x:Bind ViewModel.DpsVsArmor, Mode=OneWay}" />
+						<TextBlock  Text="Damage VS Armor: " />
+						<TextBlock  Text="{x:Bind ViewModel.DamageVsArmor, Mode=OneWay}" />
 					</StackPanel>
-				
+
+					<StackPanel Orientation="Horizontal">
+						<TextBlock  Text="Dps VS Armor: " />
+						<TextBlock  Text="{x:Bind ViewModel.DpsVsArmor, Mode=OneWay}" />
+					</StackPanel>
 				</StackPanel>
 			</Border>
 		</StackPanel>
+		<!--<oxy:PlotView Grid.Row="1" Model="{x:Bind ViewModel.DamagePlot}"/>-->
+		<lvc:CartesianChart DisableAnimations="true" Grid.Row="1" Series="{x:Bind ViewModel.SeriesCollection, Mode=OneWay}" />
 	</Grid>
 </UserControl>

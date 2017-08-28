@@ -40,7 +40,7 @@ namespace Models
 		/// <returns>Weapon Damage against armor with specified resilience</returns>
 		public double DamageVs(double armorResilience)
 		{
-			return Damage * GetDamageMultiplier(armorResilience);
+			return Damage * GetDamageMultiplier(armorResilience) * DamageProcs;
 		}
 
 		public double DpsVs(double armorResilience = 0)

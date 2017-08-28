@@ -16,6 +16,8 @@ namespace moo_data_sheets.ViewModels
 			_weapon = weapon;
 		}
 
+		public Weapon Model { get => _weapon; }
+
 		public string Name { get => _weapon.Name.ToUpper(); }
 		public string Cooldown { get => _weapon.Cooldown.ToString("0.00"); }
 		public string Damage { get => _weapon.Damage.ToString("0.00"); }

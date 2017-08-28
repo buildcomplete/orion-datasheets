@@ -1,15 +1,11 @@
 ﻿using Models;
 using Models.Repository;
 using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Runtime.CompilerServices;
-using Windows.UI.Xaml;
-using Windows.UI.Core;
+using LiveCharts;
+using LiveCharts.Uwp;
+using LiveCharts.Defaults;
 
 namespace moo_data_sheets.ViewModels
 {
@@ -19,10 +15,51 @@ namespace moo_data_sheets.ViewModels
 
 		public ObservableCollection<ArmorViewModel> ArmorTypes = new ObservableCollection<ArmorViewModel>();
 
+		//public PlotModel DamagePlot { get; private set; }
+		public SeriesCollection SeriesCollection
+		{
+			get
+			{
+				double hullStrengthPrevious = -1;
+				double hullStrength = 150;
+				double readyT = 0;
+				var val = new ChartValues<ObservablePoint>();
+				int maxT = 200;
+				for (int t=0;t<maxT;++t)
+				{
+					if (t > readyT)
+					{
+						hullStrength -= SelectedWeapon.DamageVsArmor(SelectedArmor.Rating);
+						readyT += SelectedWeapon.Model.Cooldown;
+					}
+					if (hullStrength < 0)
+						hullStrength = 0;
+
+					if (hullStrength != hullStrengthPrevious)
+						val.Add(new ObservablePoint(t,hullStrength));
+					hullStrengthPrevious = hullStrength;
+				}
+				val.Add(new ObservablePoint(maxT, hullStrength));
+
+
+				return new SeriesCollection
+				{
+					 new StepLineSeries
+					 {
+						 Values = val,
+					 },
+					//new ColumnSeries
+					//{
+					//	Values = new ChartValues<decimal> { 5, 6, 2, 7 }
+					//}
+				};
+			}
+		}
+
+		
+
 		public WeaponAnalysisViewModel()
 		{
-			InitializeTask = Initialize();
-
 			PropertyChanged += (s, e) =>
 			{
 				if (e.PropertyName == nameof(SelectedWeapon)
@@ -30,17 +67,24 @@ namespace moo_data_sheets.ViewModels
 				{
 					RaisePropertyChanged(nameof(DamageVsArmor));
 					RaisePropertyChanged(nameof(DpsVsArmor));
+					RaisePropertyChanged(nameof(SeriesCollection));
+
 				}
 			};
 
+			InitializeTask = Initialize();
 			InitializeTask.ContinueWith((T) =>
 			{
 				LoadErrorMessage = T.Exception?.Message;
 			});
+
 			ArmorTypes.Add(new ArmorViewModel(new Armor { Name = "No Armor (Raw DPS)", Rating = 0 }));
 			ArmorTypes.Add(new ArmorViewModel(new Armor { Name = "Titanium", Rating = 5 }));
 			ArmorTypes.Add(new ArmorViewModel(new Armor { Name = "Tritanium", Rating = 10 }));
 			SelectedArmor = ArmorTypes[0];
+
+			//DamagePlot = new PlotModel { Title = "Damage Profile" };
+			//DamagePlot.Series.Add(new FunctionSeries(Math.Cos, 0, 10, 0.05, "cos(x)"));
 
 		}
 
