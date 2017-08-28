@@ -78,11 +78,6 @@ namespace moo_data_sheets.ViewModels
 				LoadErrorMessage = T.Exception?.Message;
 			});
 
-			ArmorTypes.Add(new ArmorViewModel(new Armor { Name = "No Armor (Raw DPS)", Rating = 0 }));
-			ArmorTypes.Add(new ArmorViewModel(new Armor { Name = "Titanium", Rating = 5 }));
-			ArmorTypes.Add(new ArmorViewModel(new Armor { Name = "Tritanium", Rating = 10 }));
-			SelectedArmor = ArmorTypes[0];
-
 			//DamagePlot = new PlotModel { Title = "Damage Profile" };
 			//DamagePlot.Series.Add(new FunctionSeries(Math.Cos, 0, 10, 0.05, "cos(x)"));
 
@@ -124,14 +119,24 @@ namespace moo_data_sheets.ViewModels
 		private Task InitializeTask { get; set; }
 		private async Task Initialize()
 		{
-			var repo = new WeaponRepository();
-			await repo.Initialize();
-			foreach (var item in repo.Weapons)
+			var wRepo = new WeaponRepository();
+			await wRepo.Initialize();
+			foreach (var item in wRepo.Weapons)
 			{
 				Weapons.Add(new WeaponViewModel(item));
 				if (Weapons.Count == 1)
 					SelectedWeapon = Weapons[0];
 			}
+			
+			var aRepo = new ArmorRepository();
+			await aRepo.Initialize();
+			foreach (var item in aRepo.Weapons)
+			{
+				ArmorTypes.Add(new ArmorViewModel(item));
+				if (ArmorTypes.Count == 1)
+					SelectedArmor = ArmorTypes[0];
+			}
+
 			LoadCompleted = true;
 		}
 	}

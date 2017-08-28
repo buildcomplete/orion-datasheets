@@ -110,6 +110,7 @@
     <Compile Include="Planet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\CsvHelper.cs" />
+    <Compile Include="Repository\ArmorRepository.cs" />
     <Compile Include="Repository\WeaponRepository.cs" />
     <Compile Include="Weapon.cs" />
     <EmbeddedResource Include="Properties\Models.rd.xml" />
@@ -125,7 +126,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Data\Armor-data.csv" />
+    <Content Include="Data\Armor-data.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
