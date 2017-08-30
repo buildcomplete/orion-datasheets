@@ -98,6 +98,8 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\ShipHullViewModel.cs" />
+    <Compile Include="ViewModels\ShieldViewModel.cs" />
     <Compile Include="ViewModels\ArmorViewModel.cs" />
     <Compile Include="ViewModels\WeaponAnalysisViewModel.cs" />
     <Compile Include="ViewModels\WeaponViewModel.cs" />

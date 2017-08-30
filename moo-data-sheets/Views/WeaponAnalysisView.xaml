@@ -17,11 +17,18 @@
 		</Grid.RowDefinitions>
 		<StackPanel>
 			<TextBlock Text="{x:Bind ViewModel.LoadErrorMessage, Mode=OneWay}" />
-			<ComboBox ItemsSource="{x:Bind ViewModel.Weapons}" SelectedItem="{x:Bind ViewModel.SelectedWeapon, Mode=TwoWay}" />
+			<ComboBox HorizontalAlignment="Stretch" ItemsSource="{x:Bind ViewModel.Weapons}" SelectedItem="{x:Bind ViewModel.SelectedWeapon, Mode=TwoWay}" >
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal">
+							<Image Source="{Binding ImageFile}" Stretch="Uniform" Height="48"></Image>
+							<TextBlock Height="48" VerticalAlignment="Stretch" Text="{Binding Name}"></TextBlock>
+						</StackPanel>
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
 			<Border >
 				<StackPanel>
-					<TextBlock  Text="{x:Bind ViewModel.SelectedWeapon.Name, Mode=OneWay}" />
-					<Image HorizontalAlignment="Left" Stretch="Uniform" Height="48" Source="{x:Bind ViewModel.SelectedWeapon.ImageFile, Mode=OneWay}" />
 					<StackPanel Orientation="Horizontal">
 						<TextBlock  Text="Cooldown: " />
 						<TextBlock  Text="{x:Bind ViewModel.SelectedWeapon.Cooldown, Mode=OneWay}" />
@@ -41,6 +48,16 @@
 					<StackPanel Orientation="Horizontal">
 						<TextBlock  Text="Shield Piercing: " />
 						<TextBlock  Text="{x:Bind ViewModel.SelectedWeapon.ShieldPiercing, Mode=OneWay}" />
+					</StackPanel>
+
+					<StackPanel Orientation="Horizontal">
+						<TextBlock  Text="Ship Hull" />
+						<ComboBox  ItemsSource="{x:Bind ViewModel.ShipHulls, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.SelectedHull, Mode=TwoWay}"  />
+					</StackPanel>
+
+					<StackPanel Orientation="Horizontal">
+						<TextBlock  Text="Shield Type" />
+						<ComboBox  ItemsSource="{x:Bind ViewModel.ShieldTypes, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.SelectedShield, Mode=TwoWay}"  />
 					</StackPanel>
 
 					<StackPanel Orientation="Horizontal">

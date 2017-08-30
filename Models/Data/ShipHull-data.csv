@@ -1,0 +1,6 @@
+Name,Hull strength,Hull Capacity
+Frigate,95,65
+Destroyer,165,110
+Cruiser,325,250
+Battleship,750,550
+Titan,1650,1400
