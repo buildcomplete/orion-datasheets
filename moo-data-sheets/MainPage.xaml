@@ -9,7 +9,7 @@
 
 	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 		<Pivot>
-			<PivotItem Header="Planets (ListView + templates)">
+			<!--<PivotItem Header="Planets (ListView + templates)">
 				<Grid>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="1*"/>
@@ -32,14 +32,14 @@
 						</ListView.ItemTemplate>
 					</ListView>
 					<StackPanel Grid.Column="1">
-						<!--<TextBlock Foreground="Red" Text="{Binding SelectedIndex, ElementName=ListViewPlanets}"></TextBlock>-->
+						--><!--<TextBlock Foreground="Red" Text="{Binding SelectedIndex, ElementName=ListViewPlanets}"></TextBlock>-->
 						<!--<TextBlock Foreground="DarkGreen" Text="{Binding SelectedValue,ElementName=ListViewPlanets, Mode=OneWay}"></TextBlock>-->
 						<!--<TextBlock Foreground="Teal"      Text="{x:Bind SelectedPlanet, Mode=OneWay}" ></TextBlock>-->
-						<!--<TextBlock                        Text="{Binding SelectedPlanet, Mode=OneWay}"></TextBlock>-->
+						<!--<TextBlock                        Text="{Binding SelectedPlanet, Mode=OneWay}"></TextBlock>--><!--
 						<local:PlanetView ViewModel="{x:Bind SelectedPlanet, Mode=OneWay}"></local:PlanetView>
-						<!--<local:PlanetView ViewModel="{Binding SelectedPlanet}" Grid.Column="1" ></local:PlanetView>-->
+						--><!--<local:PlanetView ViewModel="{Binding SelectedPlanet}" Grid.Column="1" ></local:PlanetView>--><!--
 					</StackPanel>
-					<!--<TextBlock Grid.Column="1" Text="{Binding ElementName=ListViewPlanets, Path=SelectedItem, Mode=OneWay}" Margin="-1,0,1,0" ></TextBlock>-->
+					--><!--<TextBlock Grid.Column="1" Text="{Binding ElementName=ListViewPlanets, Path=SelectedItem, Mode=OneWay}" Margin="-1,0,1,0" ></TextBlock>--><!--
 				</Grid>
 			</PivotItem>
 			<PivotItem Header="Planets (PlanetView)">
@@ -47,13 +47,8 @@
 					<local:PlanetView ViewModel="{x:Bind PlanetViewModel}"></local:PlanetView>
 					<local:PlanetView ViewModel="{x:Bind PlanetViewModel}"></local:PlanetView>
 				</StackPanel>
-			</PivotItem>
-			<PivotItem Header="Morale">
-				<Grid>
-					<Views:MoraleView />
-				</Grid>
-			</PivotItem>
-			<PivotItem Header="Weapons selection">
+			</PivotItem>-->
+			<PivotItem Header="Weapon Profile">
 				<Grid>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition></ColumnDefinition>
@@ -65,6 +60,11 @@
 					<Views:WeaponAnalysisView Grid.Column="1"></Views:WeaponAnalysisView>
 					<Views:WeaponAnalysisView Grid.Column="2"></Views:WeaponAnalysisView>
 					<Views:WeaponAnalysisView Grid.Column="3"></Views:WeaponAnalysisView>
+				</Grid>
+			</PivotItem>
+			<PivotItem Header="Morale">
+				<Grid>
+					<Views:MoraleView />
 				</Grid>
 			</PivotItem>
 		</Pivot>
