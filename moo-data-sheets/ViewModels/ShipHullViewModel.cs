@@ -16,6 +16,9 @@ namespace moo_data_sheets.ViewModels
 			_hull = hull;
 		}
 
+		public ShipHull Model { get => _hull; }
+
+
 		public string Name { get => _hull.Name; }
 		public double Strength { get => _hull.Strength; }
 

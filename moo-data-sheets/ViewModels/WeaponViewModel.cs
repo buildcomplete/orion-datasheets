@@ -27,7 +27,7 @@ namespace moo_data_sheets.ViewModels
 
 		public double DamageVsArmor(double armorResilience)
 		{
-			return _weapon.DamageVs(armorResilience);
+			return _weapon.DamageVsArmor(armorResilience);
 		}
 
 		public double DpsVsArmor(double armorResilience)

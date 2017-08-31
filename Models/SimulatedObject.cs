@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace Models
 {
-	public class ShipHull
+	public interface SimulatedObject
 	{
-		public string Name { get; set; }
-		public double Strength { get; set; }
-		public double Capacity { get; set; }
-		
+		void Tick(double td);
 	}
 }

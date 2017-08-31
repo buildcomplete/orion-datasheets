@@ -16,12 +16,17 @@ namespace moo_data_sheets.ViewModels
 			_armor = armor;
 		}
 
+		public Armor Model { get => _armor; }
+
 		public string Name { get => _armor.Name; }
-		public double Rating { get => _armor.Rating; }
+
+		public double Resilience { get => _armor.Resilience; }
+
+		public double TacticalArmorMultiplier { get => _armor.TacticalArmorMultiplier; }
 
 		public override string ToString()
 		{
-			return $"{Name} : {Rating}";
+			return $"{Name} : {Resilience}";
 		}
 
 	}

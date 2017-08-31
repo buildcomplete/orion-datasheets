@@ -21,7 +21,11 @@ namespace Models.Repository
 				Weapons.Add(new Armor
 				{
 					Name = tokens[0],
-					Rating = double.Parse(tokens[1])
+					Resilience = double.Parse(tokens[1]),
+					BaseCost = double.Parse(tokens[2]),
+					CostHullFactor = double.Parse(tokens[3]),
+					TacticalArmorMultiplier = double.Parse(tokens[4]),
+					MissileArmorMultiplier = double.Parse(tokens[5])
 				});
 			}
 		}

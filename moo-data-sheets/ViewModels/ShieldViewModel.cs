@@ -11,10 +11,13 @@ namespace moo_data_sheets.ViewModels
 	public class ShieldViewModel : BindableBase
 	{
 		private Shield _shield;
+		
 		public ShieldViewModel(Shield shield)
 		{
 			_shield = shield;
 		}
+
+		public Shield Model { get => _shield; }
 
 		public string Name { get => _shield.Name; }
 		public double Absortion { get => _shield.Absorption; }

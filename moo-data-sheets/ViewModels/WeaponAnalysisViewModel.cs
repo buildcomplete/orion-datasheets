@@ -24,43 +24,55 @@ namespace moo_data_sheets.ViewModels
 		{
 			get
 			{
-				double hullStrengthPrevious = -1;
-				double hullStrength = SelectedHull != null
-					? SelectedHull.Strength * (SelectedShield != null
-						? SelectedShield.Multiplier
-						: 1)
-					: 150;
+				if (SelectedHull == null
+					|| SelectedShield == null
+					|| SelectedArmor == null)
+					return null;
 
+				ShipConfiguration shipConfig = new ShipConfiguration(
+					SelectedHull.Model,
+					SelectedArmor.Model,
+					SelectedShield.Model);
+
+				SimulatedCollection s = new SimulatedCollection();
+				s.Add(SelectedWeapon.Model);
+				s.Add(shipConfig);
+
+				SelectedWeapon.Model.Target = shipConfig;
+				
 				double readyT = 0;
-				var val = new ChartValues<ObservablePoint>();
-				int maxT = 200;
-				for (int t = 0; t < maxT; ++t)
+				double hullStrengthPrevious = -1, shieldStrengthPrevious = -1;
+				var hullValue = new ChartValues<ObservablePoint>();
+				var shieldValue = new ChartValues<ObservablePoint>();
+				double maxT = 200;
+				double dt = 1;
+				for (double t = 0; t < maxT; t+=dt)
 				{
-					if (t > readyT)
-					{
-						hullStrength -= SelectedWeapon.DamageVsArmor(SelectedArmor.Rating);
-						readyT += SelectedWeapon.Model.Cooldown;
-					}
-					if (hullStrength < 0)
-						hullStrength = 0;
+					if (shipConfig.HullPoints != hullStrengthPrevious)
+						hullValue.Add(new ObservablePoint(t, shipConfig.HullPoints));
 
-					if (hullStrength != hullStrengthPrevious)
-						val.Add(new ObservablePoint(t, hullStrength));
-					hullStrengthPrevious = hullStrength;
+					if (shipConfig.ShieldPoints != shieldStrengthPrevious)
+						shieldValue.Add(new ObservablePoint(t, shipConfig.ShieldPoints));
+
+					hullStrengthPrevious = shipConfig.HullPoints;
+					shieldStrengthPrevious = shipConfig.ShieldPoints;
+
+					s.Tick(dt);
 				}
-				val.Add(new ObservablePoint(maxT, hullStrength));
+				hullValue.Add(new ObservablePoint(maxT, shipConfig.HullPoints));
+				shieldValue.Add(new ObservablePoint(maxT, shipConfig.ShieldPoints));
 
 
 				return new SeriesCollection
 				{
 					 new StepLineSeries
 					 {
-						 Values = val,
+						 Values = hullValue,
 					 },
-					//new ColumnSeries
-					//{
-					//	Values = new ChartValues<decimal> { 5, 6, 2, 7 }
-					//}
+					 new StepLineSeries
+					 {
+						 Values = shieldValue,
+					 },
 				};
 			}
 		}
@@ -136,9 +148,9 @@ namespace moo_data_sheets.ViewModels
 			set => SetProperty(ref _loadErrorMessage, value);
 		}
 
-		public string DamageVsArmor { get => SelectedWeapon.DamageVsArmor(SelectedArmor.Rating).ToString("0.00"); }
+		public string DamageVsArmor { get => SelectedWeapon.DamageVsArmor(SelectedArmor.Resilience).ToString("0.00"); }
 
-		public string DpsVsArmor { get => SelectedWeapon.DpsVsArmor(SelectedArmor.Rating).ToString("0.00"); }
+		public string DpsVsArmor { get => SelectedWeapon.DpsVsArmor(SelectedArmor.Resilience).ToString("0.00"); }
 
 
 		private Task InitializeTask { get; set; }

@@ -115,7 +115,10 @@
     <Compile Include="Repository\ShipHullRepository.cs" />
     <Compile Include="Repository\WeaponRepository.cs" />
     <Compile Include="Shield.cs" />
+    <Compile Include="ShipConfiguration.cs" />
     <Compile Include="ShipHull.cs" />
+    <Compile Include="SimulatedObject.cs" />
+    <Compile Include="Simulation.cs" />
     <Compile Include="Weapon.cs" />
     <EmbeddedResource Include="Properties\Models.rd.xml" />
   </ItemGroup>
