@@ -19,19 +19,17 @@ namespace Models
 		public ShipConfiguration Target { get; set; }
 
 		public override string ToString()
-		{
-			return $"{Name} - Damage: ({Damage}x{DamageProcs}) / {Cooldown} - AP: {ArmorPenetration}, SP:{(ShieldPiercing ? "YES" : "NO")} - {Type}";
-		}
+			=> $"{Name} - Damage: ({Damage}x{DamageProcs}) / {Cooldown} - AP: {ArmorPenetration}, SP:{(ShieldPiercing ? "YES" : "NO")} - {Type}";
 
+
+		// Gets damage multiplier.
+		// Formula from user WhatIsSol from steamcommunity thread
+		// Weapon.Damage * Max((Weapon.Penetration / Target.Resilience), 0.75)
+		// http://steamcommunity.com/app/298050/discussions/0/154642447922416143/
 		public double GetDamageMultiplier(double armorResilience)
-		{
-			// Formula from user WhatIsSol from steamcommunity thread
-			// Weapon.Damage * Max((Weapon.Penetration / Target.Resilience), 0.75)
-			// http://steamcommunity.com/app/298050/discussions/0/154642447922416143/
-			return armorResilience >= 1.0
+			=> armorResilience >= 1.0
 				? Math.Max(ArmorPenetration / armorResilience, 0.75)
 				: 1;
-		}
 
 		public double ModDamage { get => Damage; }
 
@@ -42,20 +40,14 @@ namespace Models
 		/// <param name="resilience"></param>
 		/// <returns>Weapon Damage against armor with specified resilience</returns>
 		public double DamageVsArmor(double resilience)
-		{
-			return ModDamage * GetDamageMultiplier(resilience) * DamageProcs;
-		}
-
+			=> ModDamage * GetDamageMultiplier(resilience) * DamageProcs;
+		
 		public double DpsVs(double armorResilience = 0)
-		{
-			return DamageVsArmor(armorResilience) / Cooldown;
-		}
+			=> DamageVsArmor(armorResilience) / Cooldown;
 
-		public double DamageVsShield(double absorbtion)
-		{
-			return Math.Max(0, (ModDamage - absorbtion)) * DamageProcs;
-		}
-
+		public double DamageVsShield(double absorption)
+			=> Math.Max(0, (ModDamage - absorption)) * DamageProcs;
+		
 		double _heat = -1;
 		public void Tick(double dt)
 		{

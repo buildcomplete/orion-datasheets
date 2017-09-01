@@ -10,7 +10,7 @@ namespace Models.Repository
 {
 	public class ArmorRepository
 	{
-		public List<Armor> Weapons = new List<Armor>();
+		public List<Armor> Armors = new List<Armor>();
 
 		public async Task Initialize()
 		{
@@ -18,7 +18,7 @@ namespace Models.Repository
 			foreach (var item in data.Skip(1))
 			{
 				var tokens = item.Trim().Split(',');
-				Weapons.Add(new Armor
+				Armors.Add(new Armor
 				{
 					Name = tokens[0],
 					Resilience = double.Parse(tokens[1]),

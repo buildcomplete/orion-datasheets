@@ -40,7 +40,6 @@ namespace moo_data_sheets.ViewModels
 
 				SelectedWeapon.Model.Target = shipConfig;
 				
-				double readyT = 0;
 				double hullStrengthPrevious = -1, shieldStrengthPrevious = -1;
 				var hullValue = new ChartValues<ObservablePoint>();
 				var shieldValue = new ChartValues<ObservablePoint>();
@@ -148,9 +147,15 @@ namespace moo_data_sheets.ViewModels
 			set => SetProperty(ref _loadErrorMessage, value);
 		}
 
-		public string DamageVsArmor { get => SelectedWeapon.DamageVsArmor(SelectedArmor.Resilience).ToString("0.00"); }
+		public string DamageVsArmor
+		{
+			get => SelectedWeapon?.DamageVsArmor(SelectedArmor != null ? SelectedArmor.Resilience : 0).ToString("0.00");
+		}
 
-		public string DpsVsArmor { get => SelectedWeapon.DpsVsArmor(SelectedArmor.Resilience).ToString("0.00"); }
+		public string DpsVsArmor
+		{
+			get => SelectedWeapon?.DpsVsArmor(SelectedArmor!= null ? SelectedArmor.Resilience : 0).ToString("0.00");
+		}
 
 
 		private Task InitializeTask { get; set; }
@@ -170,7 +175,7 @@ namespace moo_data_sheets.ViewModels
 			{
 				var aRepo = new ArmorRepository();
 				await aRepo.Initialize();
-				foreach (var item in aRepo.Weapons)
+				foreach (var item in aRepo.Armors)
 				{
 					ArmorTypes.Add(new ArmorViewModel(item));
 					if (ArmorTypes.Count == 1)
@@ -199,7 +204,6 @@ namespace moo_data_sheets.ViewModels
 						SelectedHull = ShipHulls[0];
 				}
 			}
-
 
 			LoadCompleted = true;
 		}

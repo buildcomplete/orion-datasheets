@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Models
 {
-	public class Armor : SimulatedObject
+	public class Armor
 	{
 		public string Name { get; set; }
 
@@ -19,10 +19,5 @@ namespace Models
 		public double TacticalArmorMultiplier { get; set; }
 
 		public double MissileArmorMultiplier { get; set; }
-
-		public void Tick(double td)
-		{
-			throw new NotImplementedException();
-		}
 	}
 }

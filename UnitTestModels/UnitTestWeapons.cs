@@ -81,5 +81,57 @@ namespace UnitTestModels
 			double ArmorResilianceNeutronium = 15;
 			Assert.AreEqual(1.13f, massDriver.DpsVs(ArmorResilianceNeutronium), 0.0051);
 		}
+		[TestMethod]
+		public async Task PrintBattleLog()
+		{
+			var wRepo = new WeaponRepository();
+			await wRepo.Initialize();
+
+			var sRepo = new ShieldRepository();
+			await sRepo.Initialize();
+
+			var aRepo = new ArmorRepository();
+			await aRepo.Initialize();
+
+			var hRepo = new ShipHullRepository();
+			await hRepo.Initialize();
+
+			var weapon = wRepo.Weapons
+				.Find(X => X.Name == "Neutron Blaster");
+
+			var hull = hRepo.Hulls
+				.Find(X => X.Name == "Frigate");
+
+			var shield = sRepo.Shields
+				.Find(X => X.Name == "Class I");
+
+			var armor = aRepo.Armors
+				.Find(X => X.Name == "Titanium");
+
+			var blueprint = new ShipConfiguration(
+				hull, armor, shield);
+
+			weapon.Target = blueprint;
+
+			var simulation = new SimulatedCollection();
+			simulation.Add(weapon);
+			simulation.Add(blueprint);
+
+			Windows.Storage.StorageFolder storageFolder =
+				Windows.Storage.ApplicationData.Current.LocalFolder;
+			Windows.Storage.StorageFile sampleFile =
+				 await storageFolder.CreateFileAsync("sample.txt",
+					  Windows.Storage.CreationCollisionOption.ReplaceExisting);
+
+			double dt = 1.0; // one second simulation resolution
+			await Windows.Storage.FileIO.AppendTextAsync(sampleFile, $"Profiling vs: {weapon.Name}");
+			for (int t = 0; t < 100; ++t)
+			{
+				string logText = $"t={t}, Shield: {blueprint.ShieldPoints}, Hull: {blueprint.HullPoints}\r\n";
+				await Windows.Storage.FileIO.AppendTextAsync(sampleFile, logText);
+				simulation.Tick(dt);
+			}
+			sampleFile.ToString();
+		}
 	}
 }
