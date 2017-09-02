@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml;
 
 namespace moo_data_sheets.ViewModels
 {
@@ -20,10 +21,14 @@ namespace moo_data_sheets.ViewModels
 
 		public string Name { get => _weapon.Name.ToUpper(); }
 		public string Cooldown { get => _weapon.Cooldown.ToString("0.00"); }
-		public string Damage { get => _weapon.Damage.ToString("0.00"); }
-		public string DamageProcs { get => _weapon.DamageProcs.ToString("0.00"); }
+		public string DamageText { get =>
+			_weapon.DamageProcs > 1
+				? $"{_weapon.Damage} x {_weapon.DamageProcs} Procs, Shield Piercing: {ShieldPiercingText}"
+				: $"{_weapon.Damage}, Shield Piercing: {ShieldPiercingText}";
+		}
 		public string ArmorPenetration { get => _weapon.ArmorPenetration.ToString("0.00"); }
-		public string ShieldPiercing { get => _weapon.ShieldPiercing ? "Yes": "No"; }
+		public string ShieldPiercingText { get => _weapon.ShieldPiercing ? "Yes": "No"; }
+		public Visibility ShieldPiercingVis { get => _weapon.ShieldPiercing ? Visibility.Visible : Visibility.Collapsed; }
 
 		public double DamageVsArmor(double armorResilience)
 		{

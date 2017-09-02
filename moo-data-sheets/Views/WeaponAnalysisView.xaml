@@ -17,37 +17,39 @@
 		</Grid.RowDefinitions>
 		<StackPanel>
 			<TextBlock Text="{x:Bind ViewModel.LoadErrorMessage, Mode=OneWay}" />
+
 			<ComboBox HorizontalAlignment="Stretch" ItemsSource="{x:Bind ViewModel.Weapons}" SelectedItem="{x:Bind ViewModel.SelectedWeapon, Mode=TwoWay}" >
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
-						<StackPanel Orientation="Horizontal">
-							<Image Source="{Binding ImageFile}" Stretch="Uniform" Height="48"></Image>
-							<TextBlock Height="48" VerticalAlignment="Stretch" Text="{Binding Name}"></TextBlock>
-						</StackPanel>
+						<Border Background="Black">
+							<StackPanel Orientation="Horizontal">
+								<Image Source="{Binding ImageFile}" Stretch="Uniform" Height="48"></Image>
+								<TextBlock Foreground="Yellow" Height="48" VerticalAlignment="Stretch" Text="{Binding Name}"></TextBlock>
+								<Image VerticalAlignment="Top" Visibility="{Binding ShieldPiercingVis}" Height="12" Source="/Assets/ship_modules/dragon_missile.png"/>
+							</StackPanel>
+						</Border>
 					</DataTemplate>
 				</ComboBox.ItemTemplate>
 			</ComboBox>
 			<Border >
 				<StackPanel>
-					<StackPanel Orientation="Horizontal">
-						<TextBlock  Text="Cooldown: " />
-						<TextBlock  Text="{x:Bind ViewModel.SelectedWeapon.Cooldown, Mode=OneWay}" />
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition/>
+							<ColumnDefinition/>
+						</Grid.ColumnDefinitions>
+					<StackPanel Grid.Column="0" Orientation="Horizontal">
+						<TextBlock Text="Cooldown: " />
+						<TextBlock Text="{x:Bind ViewModel.SelectedWeapon.Cooldown, Mode=OneWay}" />
 					</StackPanel>
-					<StackPanel Orientation="Horizontal">
-						<TextBlock  Text="Damage: " />
-						<TextBlock  Text="{x:Bind ViewModel.SelectedWeapon.Damage, Mode=OneWay}" />
+						<StackPanel Grid.Column="1" Orientation="Horizontal">
+						<TextBlock Text="Damage: " />
+						<TextBlock Text="{x:Bind ViewModel.SelectedWeapon.DamageText, Mode=OneWay}" />
 					</StackPanel>
-					<StackPanel Orientation="Horizontal">
-						<TextBlock  Text="DamageProcs: " />
-						<TextBlock  Text="{x:Bind ViewModel.SelectedWeapon.DamageProcs, Mode=OneWay}" />
-					</StackPanel>
+					</Grid>
 					<StackPanel Orientation="Horizontal">
 						<TextBlock  Text="Armor Penetration: " />
 						<TextBlock  Text="{x:Bind ViewModel.SelectedWeapon.ArmorPenetration, Mode=OneWay}" />
-					</StackPanel>
-					<StackPanel Orientation="Horizontal">
-						<TextBlock  Text="Shield Piercing: " />
-						<TextBlock  Text="{x:Bind ViewModel.SelectedWeapon.ShieldPiercing, Mode=OneWay}" />
 					</StackPanel>
 
 					<StackPanel Orientation="Horizontal">
