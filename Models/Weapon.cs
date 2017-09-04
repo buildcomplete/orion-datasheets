@@ -8,14 +8,30 @@ namespace Models
 {
 	public class Weapon : SimulatedObject
 	{
+		#region Base properties
 		public string Name { get; set; }
-
 		public double Cooldown { get; set; }
 		public double Damage { get; set; }
 		public double DamageProcs { get; set; } = 1;
 		public double ArmorPenetration { get; set; }
 		public bool ShieldPiercing { get; set; }
 		public WeaponType Type { get; set; }
+		#endregion
+
+		// Creates a copy of the current weapon with all it's basic properties.
+		public Weapon BaseCopy()
+			=> new Weapon
+			{
+				Name = Name,
+				Cooldown = Cooldown,
+				Damage = Damage,
+				DamageProcs = DamageProcs,
+				ArmorPenetration = ArmorPenetration,
+				ShieldPiercing = ShieldPiercing,
+				Type = Type
+			};
+
+
 		public ShipConfiguration Target { get; set; }
 
 		public override string ToString()

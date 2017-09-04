@@ -6,25 +6,24 @@ using System.Threading.Tasks;
 using LiveCharts;
 using LiveCharts.Uwp;
 using LiveCharts.Defaults;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace moo_data_sheets.ViewModels
 {
 	public class WeaponAnalysisViewModel : BindableBase
 	{
 		public ObservableCollection<WeaponViewModel> Weapons = new ObservableCollection<WeaponViewModel>();
-
 		public ObservableCollection<ArmorViewModel> ArmorTypes = new ObservableCollection<ArmorViewModel>();
-
 		public ObservableCollection<ShieldViewModel> ShieldTypes = new ObservableCollection<ShieldViewModel>();
-
 		public ObservableCollection<ShipHullViewModel> ShipHulls = new ObservableCollection<ShipHullViewModel>();
 
-		//public PlotModel DamagePlot { get; private set; }
 		public SeriesCollection SeriesCollection
 		{
 			get
 			{
-				if (SelectedHull == null
+				if (SelectedWeapon == null
+					||SelectedHull == null
 					|| SelectedShield == null
 					|| SelectedArmor == null)
 					return null;
@@ -34,12 +33,20 @@ namespace moo_data_sheets.ViewModels
 					SelectedArmor.Model,
 					SelectedShield.Model);
 
+				shipConfig.ModHeavyArmor = ModHeavyArmor;
+				shipConfig.ModReinforcedHull = ModReinforcedHull;
+				shipConfig.Initialize();
+
 				SimulatedCollection s = new SimulatedCollection();
-				s.Add(SelectedWeapon.Model);
+				for (int i=0;i<WeaponCount;++i)
+				{
+					Weapon w = SelectedWeapon.Model.BaseCopy();
+					s.Add(w);
+					w.Target = shipConfig;
+				}
+
 				s.Add(shipConfig);
 
-				SelectedWeapon.Model.Target = shipConfig;
-				
 				double hullStrengthPrevious = -1, shieldStrengthPrevious = -1;
 				var hullValue = new ChartValues<ObservablePoint>();
 				var shieldValue = new ChartValues<ObservablePoint>();
@@ -85,7 +92,10 @@ namespace moo_data_sheets.ViewModels
 				if (e.PropertyName == nameof(SelectedWeapon)
 					|| e.PropertyName == nameof(SelectedArmor)
 					|| e.PropertyName == nameof(SelectedShield)
-					|| e.PropertyName == nameof(SelectedHull))
+					|| e.PropertyName == nameof(SelectedHull)
+					|| e.PropertyName == nameof(WeaponCount)
+					|| e.PropertyName == nameof(ModHeavyArmor)
+					|| e.PropertyName == nameof(ModReinforcedHull))
 				{
 					RaisePropertyChanged(nameof(DamageVsArmor));
 					RaisePropertyChanged(nameof(DpsVsArmor));
@@ -125,6 +135,29 @@ namespace moo_data_sheets.ViewModels
 			set => SetProperty(ref _selectedShield, value);
 		}
 
+		private bool _ModHeavyArmor;
+		public bool ModHeavyArmor
+		{
+			get => _ModHeavyArmor;
+			set => SetProperty(ref _ModHeavyArmor, value);
+		}
+
+		private bool _ModReinforcedHull;
+		public bool ModReinforcedHull
+		{
+			get => _ModReinforcedHull;
+			set => SetProperty(ref _ModReinforcedHull, value);
+		}
+
+
+		public IEnumerable<int> WeaponCountRange { get => Enumerable.Range(1, 200); }
+
+		private int _weaponCount = 1;
+		public int WeaponCount
+		{
+			get => _weaponCount;
+			set => SetProperty(ref _weaponCount, value);
+		}
 		private ShipHullViewModel _selectedHull;
 		public ShipHullViewModel SelectedHull
 		{

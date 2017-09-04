@@ -13,27 +13,58 @@ namespace Models
 			Hull = hull;
 			Armor = armor;
 			Shield = shield;
+		}
 
+		public void Initialize()
+		{
 			ShieldPoints = ShieldMaxHitPoints;
-			HullPoints = Hull.Strength * Armor.TacticalArmorMultiplier;
+			HullPoints = ShipHullStrength;
 		}
 
 		public ShipHull Hull;
 		public Shield Shield;
 		public Armor Armor;
 
-		public double ShieldMaxHitPoints { get => Hull.Strength * Shield.Multiplier; }
+		public double ShipHullStrength
+		{
+			get =>
+				(ModReinforcedHull
+					? Hull.Strength * 0.5
+					: 0)
+				+ (Hull.Strength * Armor.TacticalArmorMultiplier);
+		}
+
+		public double ShieldMaxHitPoints
+		{
+			get => IsDestroyed
+				? 0 :
+				Hull.Strength * Shield.Multiplier;
+		}
+
+		public double ArmorResilience
+		{
+			get => ModHeavyArmor
+				? Armor.Resilience * 2
+				: Armor.Resilience;
+		}
 
 		// The current amount of shield strength
 		public double ShieldPoints;
 		public double HullPoints;
 		private double _shieldHeat = 0;
 
-		public bool Destroyed;
+		public bool IsDestroyed;
+
+		public bool ModReinforcedHull;
+		public bool ModHeavyArmor;
+
 
 		internal void TakeHit(Weapon w)
 		{
-			if (ShieldPoints > 0 
+			if (IsDestroyed)
+				return;
+
+			if (ShieldPoints > 0
 				&& false == w.ShieldPiercing)
 			{
 				// Here comes some guessing...
@@ -51,25 +82,26 @@ namespace Models
 				// Tell the shield that it need some time before being able to charge...
 				// And what is the size of this??? 
 				// for now I multiplied with 2 to make sure it doesn't recharge faster than weapons...
-				_shieldHeat = Shield.Cooldown; 
+				_shieldHeat = Shield.Cooldown;
 
 				// What to do with the wasted damage??
 				// As a guess, I will apply the wasted damage to the hull.
 				// It might be more correct to apply each proc individually,
 				// But how is it done in the game???
 				HullPoints -= remainingDamage * w.GetDamageMultiplier(
-					Armor.Resilience);
+					 ArmorResilience);
 			}
 			// No shield, apply full damage directly to hull
 			else
 			{
-				HullPoints -= w.DamageVsArmor(Armor.Resilience);
+				HullPoints -= w.DamageVsArmor(ArmorResilience);
 			}
 
-			if (HullPoints < 0)
+			if (HullPoints <= 0 && IsDestroyed == false)
 			{
 				HullPoints = 0;
-				Destroyed = true;
+				IsDestroyed = true;
+				ShieldPoints = 0;
 			}
 		}
 
@@ -78,7 +110,7 @@ namespace Models
 			if (_shieldHeat > 0)
 				_shieldHeat -= dt;
 
-			if (_shieldHeat <=0 && ShieldPoints < ShieldMaxHitPoints)
+			if (_shieldHeat <= 0 && ShieldPoints < ShieldMaxHitPoints)
 			{
 				// Whats the recharge rate???
 				double carge_second = (Shield.RechargeRate / 10.0) * ShieldMaxHitPoints;

@@ -18,54 +18,85 @@
 		<StackPanel>
 			<TextBlock Text="{x:Bind ViewModel.LoadErrorMessage, Mode=OneWay}" />
 
-			<ComboBox HorizontalAlignment="Stretch" ItemsSource="{x:Bind ViewModel.Weapons}" SelectedItem="{x:Bind ViewModel.SelectedWeapon, Mode=TwoWay}" >
-				<ComboBox.ItemTemplate>
-					<DataTemplate>
-						<Border Background="Black">
-							<StackPanel Orientation="Horizontal">
-								<Image Source="{Binding ImageFile}" Stretch="Uniform" Height="48"></Image>
-								<TextBlock Foreground="Yellow" Height="48" VerticalAlignment="Stretch" Text="{Binding Name}"></TextBlock>
-								<Image VerticalAlignment="Top" Visibility="{Binding ShieldPiercingVis}" Height="12" Source="/Assets/ship_modules/dragon_missile.png"/>
-							</StackPanel>
-						</Border>
-					</DataTemplate>
-				</ComboBox.ItemTemplate>
-			</ComboBox>
-			<Border >
+			<!--<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="1*"/>
+					<ColumnDefinition Width="5*"/>
+				</Grid.ColumnDefinitions>-->
+				<ComboBox HorizontalAlignment="Stretch" ItemsSource="{x:Bind ViewModel.WeaponCountRange}" SelectedItem="{x:Bind ViewModel.WeaponCount, Mode=TwoWay}"></ComboBox>
+				<ComboBox Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{x:Bind ViewModel.Weapons}" SelectedItem="{x:Bind ViewModel.SelectedWeapon, Mode=TwoWay}" >
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<Border Background="Black">
+								<StackPanel Orientation="Horizontal">
+									<Image Source="{Binding ImageFile}" Stretch="Uniform" Height="48"></Image>
+									<TextBlock Foreground="Yellow" Height="48" VerticalAlignment="Stretch" Text="{Binding Name}"></TextBlock>
+									<Image VerticalAlignment="Top" Visibility="{Binding ShieldPiercingVis}" Height="12" Source="/Assets/ship_modules/dragon_missile.png"/>
+								</StackPanel>
+							</Border>
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
+			<!--</Grid>-->
+			<Border>
 				<StackPanel>
 					<Grid>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition/>
 							<ColumnDefinition/>
 						</Grid.ColumnDefinitions>
-					<StackPanel Grid.Column="0" Orientation="Horizontal">
-						<TextBlock Text="Cooldown: " />
-						<TextBlock Text="{x:Bind ViewModel.SelectedWeapon.Cooldown, Mode=OneWay}" />
-					</StackPanel>
+						<StackPanel Grid.Column="0" Orientation="Horizontal">
+							<TextBlock Text="Cooldown: " />
+							<TextBlock Text="{x:Bind ViewModel.SelectedWeapon.Cooldown, Mode=OneWay}" />
+						</StackPanel>
 						<StackPanel Grid.Column="1" Orientation="Horizontal">
-						<TextBlock Text="Damage: " />
-						<TextBlock Text="{x:Bind ViewModel.SelectedWeapon.DamageText, Mode=OneWay}" />
-					</StackPanel>
+							<TextBlock Text="Damage: " />
+							<TextBlock Text="{x:Bind ViewModel.SelectedWeapon.DamageText, Mode=OneWay}" />
+						</StackPanel>
 					</Grid>
 					<StackPanel Orientation="Horizontal">
 						<TextBlock  Text="Armor Penetration: " />
 						<TextBlock  Text="{x:Bind ViewModel.SelectedWeapon.ArmorPenetration, Mode=OneWay}" />
 					</StackPanel>
-
+				</StackPanel>
+			</Border>
+			<Border>
+				<StackPanel>
 					<StackPanel Orientation="Horizontal">
 						<TextBlock  Text="Ship Hull" />
 						<ComboBox  ItemsSource="{x:Bind ViewModel.ShipHulls, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.SelectedHull, Mode=TwoWay}"  />
 					</StackPanel>
-
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition/>
+							<ColumnDefinition/>
+						</Grid.ColumnDefinitions>
 					<StackPanel Orientation="Horizontal">
-						<TextBlock  Text="Shield Type" />
-						<ComboBox  ItemsSource="{x:Bind ViewModel.ShieldTypes, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.SelectedShield, Mode=TwoWay}"  />
+						<TextBlock  Text="Shield" />
+						<ComboBox ItemsSource="{x:Bind ViewModel.ShieldTypes, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.SelectedShield, Mode=TwoWay}"  />
 					</StackPanel>
 
-					<StackPanel Orientation="Horizontal">
-						<TextBlock  Text="Armor rating" />
+					<StackPanel Grid.Column="1" Orientation="Horizontal">
+						<TextBlock  Text="Armor" />
 						<ComboBox  ItemsSource="{x:Bind ViewModel.ArmorTypes, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.SelectedArmor, Mode=TwoWay}"  />
 					</StackPanel>
+					</Grid>
+
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition/>
+							<ColumnDefinition/>
+						</Grid.ColumnDefinitions>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock  Text="Heavy Armor:" Margin="0 0 8 0"/>
+							<CheckBox IsChecked="{x:Bind ViewModel.ModHeavyArmor, Mode=TwoWay}" ></CheckBox>
+						</StackPanel>
+
+						<StackPanel Grid.Column="1" Orientation="Horizontal">
+							<TextBlock  Text="Reinforced Hull:" Margin="0 0 8 0" />
+							<CheckBox IsChecked="{x:Bind ViewModel.ModReinforcedHull, Mode=TwoWay}" ></CheckBox>
+						</StackPanel>
+					</Grid>
 
 					<StackPanel Orientation="Horizontal">
 						<TextBlock  Text="Damage VS Armor: " />
@@ -77,6 +108,7 @@
 						<TextBlock  Text="{x:Bind ViewModel.DpsVsArmor, Mode=OneWay}" />
 					</StackPanel>
 				</StackPanel>
+
 			</Border>
 		</StackPanel>
 		<!--<oxy:PlotView Grid.Row="1" Model="{x:Bind ViewModel.DamagePlot}"/>-->
