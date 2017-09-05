@@ -5,10 +5,13 @@
     xmlns:local="using:moo_data_sheets.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:lvc="using:LiveCharts.Uwp"
-	mc:Ignorable="d"
+    xmlns:lvc="using:LiveCharts.Uwp"
+    mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
+	<UserControl.Resources>
+		<ResourceDictionary Source="/Resources/Templates.xaml" />
+	</UserControl.Resources>
 
 	<Grid>
 		<Grid.RowDefinitions>
@@ -24,38 +27,12 @@
 					<ColumnDefinition Width="5*"/>
 				</Grid.ColumnDefinitions>-->
 				<ComboBox HorizontalAlignment="Stretch" ItemsSource="{x:Bind ViewModel.WeaponCountRange}" SelectedItem="{x:Bind ViewModel.WeaponCount, Mode=TwoWay}"></ComboBox>
-				<ComboBox Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{x:Bind ViewModel.Weapons}" SelectedItem="{x:Bind ViewModel.SelectedWeapon, Mode=TwoWay}" >
-					<ComboBox.ItemTemplate>
-						<DataTemplate>
-							<Border Background="Black">
-								<StackPanel Orientation="Horizontal">
-									<Image Source="{Binding ImageFile}" Stretch="Uniform" Height="48"></Image>
-									<TextBlock Foreground="Yellow" Height="48" VerticalAlignment="Stretch" Text="{Binding Name}"></TextBlock>
-									<Image VerticalAlignment="Top" Visibility="{Binding ShieldPiercingVis}" Height="12" Source="/Assets/ship_modules/dragon_missile.png"/>
-								</StackPanel>
-							</Border>
-						</DataTemplate>
-					</ComboBox.ItemTemplate>
-				</ComboBox>
+			<ComboBox Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{x:Bind ViewModel.Weapons}" SelectedItem="{x:Bind ViewModel.SelectedWeapon, Mode=TwoWay}" ItemTemplate="{StaticResource WeaponItemsTemplate}" />
 			<!--</Grid>-->
 			<Border>
 				<StackPanel>
-					<Grid>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition/>
-							<ColumnDefinition/>
-						</Grid.ColumnDefinitions>
-						<StackPanel Grid.Column="0" Orientation="Horizontal">
-							<TextBlock Text="Cooldown: " />
-							<TextBlock Text="{x:Bind ViewModel.SelectedWeapon.Cooldown, Mode=OneWay}" />
-						</StackPanel>
-						<StackPanel Grid.Column="1" Orientation="Horizontal">
-							<TextBlock Text="Damage: " />
-							<TextBlock Text="{x:Bind ViewModel.SelectedWeapon.DamageText, Mode=OneWay}" />
-						</StackPanel>
-					</Grid>
 					<StackPanel Orientation="Horizontal">
-						<TextBlock  Text="Armor Penetration: " />
+						<TextBlock  Text="AP: " />
 						<TextBlock  Text="{x:Bind ViewModel.SelectedWeapon.ArmorPenetration, Mode=OneWay}" />
 					</StackPanel>
 				</StackPanel>

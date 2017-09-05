@@ -16,4 +16,5 @@
 /UnitTestModels/obj
 /moo-data-sheets/Assets/ship_modules/*.png
 /moo-data-sheets/Assets/tactical/*.png
+/moo-data-sheets/Assets/tooltip/*.png
 *.user

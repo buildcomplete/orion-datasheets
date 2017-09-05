@@ -23,7 +23,9 @@ namespace Models.Repository
 					DamageProcs = double.Parse(tokens[3]),
 					ArmorPenetration= double.Parse(tokens[4]),
 					ShieldPiercing = tokens[5]=="1",
-					Type = (WeaponType)Enum.Parse(typeof(WeaponType),tokens[6])
+					Cost = double.Parse(tokens[6]),
+					Size = double.Parse(tokens[7]),
+					Type = (WeaponType)Enum.Parse(typeof(WeaponType),tokens[8])
 				});
 			}
 		}

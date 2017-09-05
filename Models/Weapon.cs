@@ -15,6 +15,8 @@ namespace Models
 		public double DamageProcs { get; set; } = 1;
 		public double ArmorPenetration { get; set; }
 		public bool ShieldPiercing { get; set; }
+		public double Cost { get; set; }
+		public double Size { get; set; }
 		public WeaponType Type { get; set; }
 		#endregion
 

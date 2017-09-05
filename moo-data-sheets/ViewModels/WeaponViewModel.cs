@@ -23,8 +23,8 @@ namespace moo_data_sheets.ViewModels
 		public string Cooldown { get => _weapon.Cooldown.ToString("0.00"); }
 		public string DamageText { get =>
 			_weapon.DamageProcs > 1
-				? $"{_weapon.Damage} x {_weapon.DamageProcs} Procs, Shield Piercing: {ShieldPiercingText}"
-				: $"{_weapon.Damage}, Shield Piercing: {ShieldPiercingText}";
+				? $"{_weapon.Damage} x {_weapon.DamageProcs} ({_weapon.Damage * _weapon.DamageProcs})"
+				: $"{_weapon.Damage}";
 		}
 		public string ArmorPenetration { get => _weapon.ArmorPenetration.ToString("0.00"); }
 		public string ShieldPiercingText { get => _weapon.ShieldPiercing ? "Yes": "No"; }
