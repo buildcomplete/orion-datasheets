@@ -100,6 +100,7 @@ namespace moo_data_sheets.ViewModels
 					RaisePropertyChanged(nameof(DamageVsArmor));
 					RaisePropertyChanged(nameof(DpsVsArmor));
 					RaisePropertyChanged(nameof(SeriesCollection));
+					RaisePropertyChanged(nameof(SelectedWeaponTotalSpace));
 				}
 			};
 
@@ -149,6 +150,11 @@ namespace moo_data_sheets.ViewModels
 			set => SetProperty(ref _ModReinforcedHull, value);
 		}
 
+		public string SelectedWeaponTotalSpace { get =>
+				SelectedWeapon != null
+					? (SelectedWeapon.Model.Size * WeaponCount).ToString("0.0")
+				: "-";
+		}
 
 		public IEnumerable<int> WeaponCountRange { get => Enumerable.Range(1, 200); }
 

@@ -32,8 +32,8 @@
 			<Border>
 				<StackPanel>
 					<StackPanel Orientation="Horizontal">
-						<TextBlock  Text="AP: " />
-						<TextBlock  Text="{x:Bind ViewModel.SelectedWeapon.ArmorPenetration, Mode=OneWay}" />
+						<TextBlock  Text="Total Space: " />
+						<TextBlock  Text="{x:Bind ViewModel.SelectedWeaponTotalSpace, Mode=OneWay}" />
 					</StackPanel>
 				</StackPanel>
 			</Border>

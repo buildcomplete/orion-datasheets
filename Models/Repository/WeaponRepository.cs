@@ -15,6 +15,10 @@ namespace Models.Repository
 			foreach (var item in data.Skip(1))
 			{
 				var tokens = item.Trim().Split(',');
+				var modifiers = tokens[9].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+					.Select(X => (WeaponModifiers)Enum.Parse(typeof(WeaponModifiers), X))
+					.Aggregate(WeaponModifiers.None, (acc, X) => X | acc);
+
 				Weapons.Add(new Weapon
 				{
 					Name = tokens[0],
@@ -25,7 +29,8 @@ namespace Models.Repository
 					ShieldPiercing = tokens[5]=="1",
 					Cost = double.Parse(tokens[6]),
 					Size = double.Parse(tokens[7]),
-					Type = (WeaponType)Enum.Parse(typeof(WeaponType),tokens[8])
+					Type = (WeaponType)Enum.Parse(typeof(WeaponType),tokens[8]),
+					PossibleModifiers = modifiers
 				});
 			}
 		}

@@ -18,6 +18,9 @@ namespace Models
 		public double Cost { get; set; }
 		public double Size { get; set; }
 		public WeaponType Type { get; set; }
+		public WeaponModifiers PossibleModifiers { get; set; }
+		public WeaponModifiers EnabledModifiers { get; set; }
+
 		#endregion
 
 		// Creates a copy of the current weapon with all it's basic properties.
@@ -30,7 +33,9 @@ namespace Models
 				DamageProcs = DamageProcs,
 				ArmorPenetration = ArmorPenetration,
 				ShieldPiercing = ShieldPiercing,
-				Type = Type
+				Type = Type,
+				PossibleModifiers = PossibleModifiers,
+				EnabledModifiers = EnabledModifiers
 			};
 
 
@@ -59,13 +64,13 @@ namespace Models
 		/// <returns>Weapon Damage against armor with specified resilience</returns>
 		public double DamageVsArmor(double resilience)
 			=> ModDamage * GetDamageMultiplier(resilience) * DamageProcs;
-		
+
 		public double DpsVs(double armorResilience = 0)
 			=> DamageVsArmor(armorResilience) / Cooldown;
 
 		public double DamageVsShield(double absorption)
 			=> Math.Max(0, (ModDamage - absorption)) * DamageProcs;
-		
+
 		double _heat = -1;
 		public void Tick(double dt)
 		{
@@ -89,4 +94,22 @@ namespace Models
 		Missile,
 		Torpedo
 	}
+
+	[Flags]
+	public enum WeaponModifiers
+	{
+		None = 0,
+		point_defense		= 0x001,
+		continuous_fire	= 0x002, 
+		auto_fire			= 0x004,
+		heavy_mount			= 0x008,
+		enveloping			= 0x010,
+		heavy_armor			= 0x020,
+		eccm					= 0x040,
+		fast					= 0x080,
+		mirv					= 0x100,
+		overloaded			= 0x200,
+		semi_guided			= 0x400,
+	}
+
 }
