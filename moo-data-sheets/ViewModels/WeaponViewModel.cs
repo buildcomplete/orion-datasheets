@@ -53,6 +53,8 @@ namespace moo_data_sheets.ViewModels
 						{"Plasma Beam", "plasma_cannon" },
 						{"Proton Torpedo", "proton_torpedoes" },
 						{"Plasma Torpedo", "plasma_torpedoes" },
+						{"Pirate Missile", "nuclear_missile" },
+						
 					};
 
 					var mappedName = strangeNameMap.ContainsKey(_weapon.Name)

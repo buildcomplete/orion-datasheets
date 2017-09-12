@@ -29,8 +29,8 @@
 					<RowDefinition/>
 				</Grid.RowDefinitions>
 				<Image Grid.RowSpan="3" Source="{Binding ImageFile}" Stretch="Uniform"></Image>
-				
-				<TextBlock Grid.Column="1" Grid.ColumnSpan="2" Foreground="Yellow" Text="{Binding Name}"></TextBlock>
+
+				<TextBlock Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Name}" Foreground="#FF956DD2"></TextBlock>
 				
 				<StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
 					<Image VerticalAlignment="Top" Height="12" Source="/Assets/tooltip/icon_damage.png"/>
