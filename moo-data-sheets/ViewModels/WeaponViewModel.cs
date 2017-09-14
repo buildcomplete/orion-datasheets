@@ -15,6 +15,12 @@ namespace moo_data_sheets.ViewModels
 		public WeaponViewModel(Weapon weapon)
 		{
 			_weapon = weapon;
+			PossibleModifiers = Enum.GetNames(typeof(WeaponModifiers))
+				.Select(X => (WeaponModifiers)Enum.Parse(typeof(WeaponModifiers), X))
+				.Where(X => X != WeaponModifiers.None)
+				.Where(X => _weapon.PossibleModifiers.HasFlag(X))
+				.Select(X => new WeaponModifierViewModel { Modifier = X, IsSet = false })
+				.ToArray();
 		}
 
 		public Weapon Model { get => _weapon; }
@@ -37,6 +43,11 @@ namespace moo_data_sheets.ViewModels
 		public double DpsVsArmor(double armorResilience)
 		{
 			return _weapon.DpsVs(armorResilience);
+		}
+
+		public WeaponModifierViewModel[] PossibleModifiers
+		{
+			get;set;
 		}
 
 		public string ImageFile

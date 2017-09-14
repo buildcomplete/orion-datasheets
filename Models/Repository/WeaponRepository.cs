@@ -18,7 +18,7 @@ namespace Models.Repository
 				var modifiers = tokens[9].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
 					.Select(X => (WeaponModifiers)Enum.Parse(typeof(WeaponModifiers), X))
 					.Aggregate(WeaponModifiers.None, (acc, X) => X | acc);
-
+				
 				Weapons.Add(new Weapon
 				{
 					Name = tokens[0],
