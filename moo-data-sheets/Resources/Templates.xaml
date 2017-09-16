@@ -55,7 +55,7 @@
 
 				<StackPanel Grid.Column="2" Grid.Row="2" Orientation="Horizontal">
 					<Image VerticalAlignment="Top" Source="/Assets/tooltip/icon_space.png"/>
-					<TextBlock Foreground="Yellow" Text="{Binding Model.Size}"></TextBlock>
+					<TextBlock Foreground="Yellow" Text="{Binding Size}"></TextBlock>
 				</StackPanel>
 			</Grid>
 		</Border>

@@ -83,8 +83,6 @@ namespace moo_data_sheets.ViewModels
 			}
 		}
 
-
-
 		public WeaponAnalysisViewModel()
 		{
 			PropertyChanged += (s, e) =>
@@ -97,10 +95,7 @@ namespace moo_data_sheets.ViewModels
 					|| e.PropertyName == nameof(ModHeavyArmor)
 					|| e.PropertyName == nameof(ModReinforcedHull))
 				{
-					RaisePropertyChanged(nameof(DamageVsArmor));
-					RaisePropertyChanged(nameof(DpsVsArmor));
-					RaisePropertyChanged(nameof(SeriesCollection));
-					RaisePropertyChanged(nameof(SelectedWeaponTotalSpace));
+					RaiseCalculatedWeaponProptiesChanged();
 				}
 			};
 
@@ -113,6 +108,14 @@ namespace moo_data_sheets.ViewModels
 			//DamagePlot = new PlotModel { Title = "Damage Profile" };
 			//DamagePlot.Series.Add(new FunctionSeries(Math.Cos, 0, 10, 0.05, "cos(x)"));
 
+		}
+
+		private void RaiseCalculatedWeaponProptiesChanged()
+		{
+			RaisePropertyChanged(nameof(DamageVsArmor));
+			RaisePropertyChanged(nameof(DpsVsArmor));
+			RaisePropertyChanged(nameof(SeriesCollection));
+			RaisePropertyChanged(nameof(SelectedWeaponTotalSpace));
 		}
 
 		private WeaponViewModel _selectedWeapon;
@@ -152,7 +155,7 @@ namespace moo_data_sheets.ViewModels
 
 		public string SelectedWeaponTotalSpace { get =>
 				SelectedWeapon != null
-					? (SelectedWeapon.Model.Size * WeaponCount).ToString("0.0")
+					? (SelectedWeapon.Model.ModSize * WeaponCount).ToString("0.0")
 				: "-";
 		}
 
@@ -206,9 +209,20 @@ namespace moo_data_sheets.ViewModels
 				await wRepo.Initialize();
 				foreach (var item in wRepo.Weapons)
 				{
-					Weapons.Add(new WeaponViewModel(item));
+					var x = new WeaponViewModel(item);
+					Weapons.Add(x);
 					if (Weapons.Count == 1)
-						SelectedWeapon = Weapons[0];
+						SelectedWeapon = x;
+
+					// Register eventhandler so when weapons properties are changed.
+					// The Calculated properties gets a changed event...
+					x.PropertyChanged += (s, e) =>
+					{
+						if (e.PropertyName == nameof(WeaponViewModel.EnabledModifiers))
+						{
+							RaiseCalculatedWeaponProptiesChanged();
+						}
+					};
 				}
 			}
 			{
@@ -245,6 +259,11 @@ namespace moo_data_sheets.ViewModels
 			}
 
 			LoadCompleted = true;
+		}
+
+		private void X_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		{
+			throw new System.NotImplementedException();
 		}
 	}
 }

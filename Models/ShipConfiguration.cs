@@ -67,11 +67,11 @@ namespace Models
 			if (ShieldPoints > 0
 				&& false == w.ShieldPiercing)
 			{
-				// Here comes some guessing...
-				// The damage against the Shield, 
-				// is probably unaffected by the armor rating.
+				// The damage against the Shield unaffected by the armor rating.
 				ShieldPoints -= w.DamageVsShield(Shield.Absorption);
 
+				// But, if enveloping modifier is enabled... the carry over damage calculation might be more complex?
+				// right now i ignore the problem and pretend there is nothing strange about it...
 				double remainingDamage = 0;
 				if (ShieldPoints < 0)
 				{
@@ -80,8 +80,6 @@ namespace Models
 				}
 
 				// Tell the shield that it need some time before being able to charge...
-				// And what is the size of this??? 
-				// for now I multiplied with 2 to make sure it doesn't recharge faster than weapons...
 				_shieldHeat = Shield.Cooldown;
 
 				// What to do with the wasted damage??

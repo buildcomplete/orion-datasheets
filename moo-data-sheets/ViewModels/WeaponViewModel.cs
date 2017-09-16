@@ -19,18 +19,21 @@ namespace moo_data_sheets.ViewModels
 				.Select(X => (WeaponModifiers)Enum.Parse(typeof(WeaponModifiers), X))
 				.Where(X => X != WeaponModifiers.None)
 				.Where(X => _weapon.PossibleModifiers.HasFlag(X))
-				.Select(X => new WeaponModifierViewModel { Modifier = X, IsSet = false })
+				.Select(X => new WeaponModifierViewModel { Modifier = X, WeaponVM = this })
 				.ToArray();
 		}
 
 		public Weapon Model { get => _weapon; }
 
 		public string Name { get => _weapon.Name.ToUpper(); }
-		public string Cooldown { get => _weapon.Cooldown.ToString("0.00"); }
+
+		public string Cooldown { get => _weapon.ModCooldown.ToString("0.00"); }
+		public string Size { get => _weapon.ModSize.ToString("0.00"); }
+
 		public string DamageText { get =>
 			_weapon.DamageProcs > 1
-				? $"{_weapon.Damage} x {_weapon.DamageProcs} ({_weapon.Damage * _weapon.DamageProcs})"
-				: $"{_weapon.Damage}";
+				? $"{_weapon.ModDamage} x {_weapon.DamageProcs} ({_weapon.ModDamage * _weapon.DamageProcs})"
+				: $"{_weapon.ModDamage}";
 		}
 		public string ArmorPenetration { get => _weapon.ArmorPenetration.ToString("0.00"); }
 		public string ShieldPiercingText { get => _weapon.ShieldPiercing ? "Yes": "No"; }
@@ -47,8 +50,27 @@ namespace moo_data_sheets.ViewModels
 
 		public WeaponModifierViewModel[] PossibleModifiers
 		{
-			get;set;
+			get ;set;
 		}
+
+		private WeaponModifiers _enabledModifiers;
+		public WeaponModifiers EnabledModifiers
+		{
+			get => _weapon.EnabledModifiers;
+			set
+			{
+				if (_weapon.EnabledModifiers != value)
+				{
+					_weapon.EnabledModifiers = value;
+					RaisePropertyChanged();
+					RaisePropertyChanged(nameof(Cooldown));
+					RaisePropertyChanged(nameof(DamageText));
+					RaisePropertyChanged(nameof(DamageVsArmor));
+					RaisePropertyChanged(nameof(Size));
+				}
+			}
+		}
+
 
 		public string ImageFile
 		{

@@ -24,11 +24,6 @@
 			<ComboBox HorizontalAlignment="Stretch" ItemsSource="{x:Bind ViewModel.WeaponCountRange}" SelectedItem="{x:Bind ViewModel.WeaponCount, Mode=TwoWay}"></ComboBox>
 			<ComboBox Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{x:Bind ViewModel.Weapons}" SelectedItem="{x:Bind ViewModel.SelectedWeapon, Mode=TwoWay}" ItemTemplate="{StaticResource WeaponItemsTemplate}" />
 			<ListView ItemsSource="{x:Bind ViewModel.SelectedWeapon.PossibleModifiers, Mode=TwoWay}">
-				<!--<ListBox.ItemContainerStyle>
-					<Style TargetType="ListBoxItem">
-						<Setter Property="IsSelected" Value="{Binding IsSet, Mode=TwoWay}" />
-					</Style>
-				</ListBox.ItemContainerStyle>-->
 				<ListView.ItemsPanel>
 					<ItemsPanelTemplate>
 						<StackPanel Orientation="Horizontal"/>
@@ -36,11 +31,10 @@
 				</ListView.ItemsPanel>
 				<ListView.ItemTemplate>
 					<DataTemplate>
-						<StackPanel Orientation="Horizontal">
-							<!--<CheckBox Checked="{Binding IsSet}" >-->
-								<Image Width="14" Height="14" Source="{Binding ImageFile}"/>
-								<!--<TextBlock Text="{Binding ImageFile}" />-->
-							<!--</CheckBox>-->
+						<StackPanel Width="60" Orientation="Horizontal">
+							<CheckBox IsChecked="{Binding IsSet, Mode=TwoWay}" >
+								<Image Width="24" Height="24" Source="{Binding ImageFile, Mode=OneWay}"/>
+							</CheckBox>
 						</StackPanel>
 					</DataTemplate>
 				</ListView.ItemTemplate>

@@ -7,10 +7,22 @@ using System.Threading.Tasks;
 
 namespace moo_data_sheets.ViewModels
 {
-    public class WeaponModifierViewModel
-    {
+	public class WeaponModifierViewModel
+	{
+		public WeaponViewModel WeaponVM {get;set;}
+
 		public WeaponModifiers Modifier { get; set; }
-		public bool IsSet { get; set; }
+
+		public bool IsSet
+		{
+			get => WeaponVM.EnabledModifiers.HasFlag(Modifier);
+			set {
+				if (value)
+					WeaponVM.EnabledModifiers |= Modifier;
+				else
+					WeaponVM.EnabledModifiers &= ~Modifier;
+			}
+		}
 
 		public string ImageFile { get => $"/Assets/weapon_modifiers/{Modifier}.png"; }
 

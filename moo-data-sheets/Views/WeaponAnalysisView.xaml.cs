@@ -28,5 +28,6 @@ namespace moo_data_sheets.Views
 		{
 			this.InitializeComponent();
 		}
+
 	}
 }

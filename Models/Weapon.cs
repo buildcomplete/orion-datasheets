@@ -49,12 +49,40 @@ namespace Models
 		// Formula from user WhatIsSol from steamcommunity thread
 		// Weapon.Damage * Max((Weapon.Penetration / Target.Resilience), 0.75)
 		// http://steamcommunity.com/app/298050/discussions/0/154642447922416143/
+		public double ModDamage
+		{
+			get => Damage
+				* (EnabledModifiers.HasFlag(WeaponModifiers.heavy_mount) ? 2 : 1)
+				// calculation damage vs ship, so pd disables weapon.
+				* (EnabledModifiers.HasFlag(WeaponModifiers.point_defense) ? 0 : 1);
+		}
+
+		public double ModShieldDamage
+		{
+			get => ModDamage
+				* (EnabledModifiers.HasFlag(WeaponModifiers.enveloping) ? 1.5 : 1);
+		}
+
+		public double ModCooldown
+		{
+			get => Cooldown 
+				* (EnabledModifiers.HasFlag(WeaponModifiers.auto_fire) ? 0.5 : 1) 
+				* (EnabledModifiers.HasFlag(WeaponModifiers.heavy_mount) ? 1.25:1);
+		}
+
+		public double ModSize
+		{
+			get => Size
+				* (EnabledModifiers.HasFlag(WeaponModifiers.point_defense) ? 0.44 : 1)
+				* (EnabledModifiers.HasFlag(WeaponModifiers.heavy_mount) ? 1.5 : 1)
+				* (EnabledModifiers.HasFlag(WeaponModifiers.enveloping) ? 1.25 : 1)
+				* (EnabledModifiers.HasFlag(WeaponModifiers.auto_fire)? 1.5 : 1);
+		}
+
 		public double GetDamageMultiplier(double armorResilience)
 			=> armorResilience >= 1.0
 				? Math.Max(ArmorPenetration / armorResilience, 0.75)
 				: 1;
-
-		public double ModDamage { get => Damage; }
 
 		/// <summary>
 		/// Weapon Damage against armor with specified resilience
@@ -66,10 +94,10 @@ namespace Models
 			=> ModDamage * GetDamageMultiplier(resilience) * DamageProcs;
 
 		public double DpsVs(double armorResilience = 0)
-			=> DamageVsArmor(armorResilience) / Cooldown;
+			=> DamageVsArmor(armorResilience) / ModCooldown;
 
 		public double DamageVsShield(double absorption)
-			=> Math.Max(0, (ModDamage - absorption)) * DamageProcs;
+			=> Math.Max(0, (ModShieldDamage - absorption)) * DamageProcs;
 
 		double _heat = -1;
 		public void Tick(double dt)
@@ -83,7 +111,7 @@ namespace Models
 				Target.TakeHit(this);
 
 				// Apply heat
-				_heat = Cooldown;
+				_heat = ModCooldown;
 			}
 		}
 	}
