@@ -116,6 +116,7 @@ namespace moo_data_sheets.ViewModels
 			RaisePropertyChanged(nameof(DpsVsArmor));
 			RaisePropertyChanged(nameof(SeriesCollection));
 			RaisePropertyChanged(nameof(SelectedWeaponTotalSpace));
+			RaisePropertyChanged(nameof(MultiplierVsArmor));
 		}
 
 		private WeaponViewModel _selectedWeapon;
@@ -199,6 +200,11 @@ namespace moo_data_sheets.ViewModels
 			get => SelectedWeapon?.DpsVsArmor(SelectedArmor!= null ? SelectedArmor.Resilience : 0).ToString("0.00");
 		}
 
+		public string MultiplierVsArmor
+		{
+			get => (SelectedWeapon?.Model.GetDamageMultiplier(SelectedArmor?.Model.Resilience ?? 0) ?? 0).ToString("0.00");
+		}
+
 
 		private Task InitializeTask { get; set; }
 
@@ -259,11 +265,6 @@ namespace moo_data_sheets.ViewModels
 			}
 
 			LoadCompleted = true;
-		}
-
-		private void X_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-		{
-			throw new System.NotImplementedException();
 		}
 	}
 }

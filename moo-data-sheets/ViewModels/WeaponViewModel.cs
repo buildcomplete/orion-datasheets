@@ -35,7 +35,7 @@ namespace moo_data_sheets.ViewModels
 				? $"{_weapon.ModDamage} x {_weapon.DamageProcs} ({_weapon.ModDamage * _weapon.DamageProcs})"
 				: $"{_weapon.ModDamage}";
 		}
-		public string ArmorPenetration { get => _weapon.ArmorPenetration.ToString("0.00"); }
+		public string ArmorPenetration { get => _weapon.ModArmorPenetration.ToString("0.00"); }
 		public string ShieldPiercingText { get => _weapon.ShieldPiercing ? "Yes": "No"; }
 		public Visibility ShieldPiercingVis { get => _weapon.ShieldPiercing ? Visibility.Visible : Visibility.Collapsed; }
 		public double DamageVsArmor(double armorResilience)
@@ -67,6 +67,7 @@ namespace moo_data_sheets.ViewModels
 					RaisePropertyChanged(nameof(DamageText));
 					RaisePropertyChanged(nameof(DamageVsArmor));
 					RaisePropertyChanged(nameof(Size));
+					RaisePropertyChanged(nameof(ArmorPenetration));
 				}
 			}
 		}

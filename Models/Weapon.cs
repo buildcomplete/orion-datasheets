@@ -42,7 +42,7 @@ namespace Models
 		public ShipConfiguration Target { get; set; }
 
 		public override string ToString()
-			=> $"{Name} - Damage: ({Damage}x{DamageProcs}) / {Cooldown} - AP: {ArmorPenetration}, SP:{(ShieldPiercing ? "YES" : "NO")} - {Type}";
+			=> $"{Name} - Damage: ({ModDamage}x{DamageProcs}) / {ModCooldown} - AP: {ModArmorPenetration}, SP:{(ShieldPiercing ? "YES" : "NO")} - {Type}";
 
 
 		// Gets damage multiplier.
@@ -76,12 +76,19 @@ namespace Models
 				* (EnabledModifiers.HasFlag(WeaponModifiers.point_defense) ? 0.44 : 1)
 				* (EnabledModifiers.HasFlag(WeaponModifiers.heavy_mount) ? 1.5 : 1)
 				* (EnabledModifiers.HasFlag(WeaponModifiers.enveloping) ? 1.25 : 1)
-				* (EnabledModifiers.HasFlag(WeaponModifiers.auto_fire)? 1.5 : 1);
+				* (EnabledModifiers.HasFlag(WeaponModifiers.auto_fire) ? 1.5 : 1)
+				* (EnabledModifiers.HasFlag(WeaponModifiers.continuous_fire) ? 1.5 : 1);
+		}
+
+		public double ModArmorPenetration
+		{
+			get => ArmorPenetration
+				* (EnabledModifiers.HasFlag(WeaponModifiers.continuous_fire) ? 1.5 : 1);
 		}
 
 		public double GetDamageMultiplier(double armorResilience)
 			=> armorResilience >= 1.0
-				? Math.Max(ArmorPenetration / armorResilience, 0.75)
+				? Math.Max(ModArmorPenetration / armorResilience, 0.75)
 				: 1;
 
 		/// <summary>

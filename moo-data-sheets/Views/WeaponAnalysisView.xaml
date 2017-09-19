@@ -86,13 +86,11 @@
 					</Grid>
 
 					<StackPanel Orientation="Horizontal">
-						<TextBlock  Text="Damage VS Armor: " />
+						<TextBlock  Text="VS Armor: " />
 						<TextBlock  Text="{x:Bind ViewModel.DamageVsArmor, Mode=OneWay}" />
-					</StackPanel>
-
-					<StackPanel Orientation="Horizontal">
-						<TextBlock  Text="Dps VS Armor: " />
-						<TextBlock  Text="{x:Bind ViewModel.DpsVsArmor, Mode=OneWay}" />
+						<TextBlock  Text=" (" />
+						<TextBlock  Text="{x:Bind ViewModel.MultiplierVsArmor, Mode=OneWay}" />
+						<TextBlock  Text=" ) " />
 					</StackPanel>
 				</StackPanel>
 
