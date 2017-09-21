@@ -72,22 +72,19 @@ namespace Models
 
 				// But, if enveloping modifier is enabled... the carry over damage calculation might be more complex?
 				// right now i ignore the problem and pretend there is nothing strange about it...
-				double remainingDamage = 0;
 				if (ShieldPoints < 0)
 				{
-					remainingDamage = -ShieldPoints;
+					double remainingDamage = -ShieldPoints;
 					ShieldPoints = 0;
+
+					// apply remaining damage without shield damage boost for example from enveloping
+					double pctDamageRemaining = remainingDamage / w.ModShieldDamage;
+					HullPoints -= pctDamageRemaining * w.DamageVsArmor(ArmorResilience);
 				}
 
 				// Tell the shield that it need some time before being able to charge...
 				_shieldHeat = Shield.Cooldown;
 
-				// What to do with the wasted damage??
-				// As a guess, I will apply the wasted damage to the hull.
-				// It might be more correct to apply each proc individually,
-				// But how is it done in the game???
-				HullPoints -= remainingDamage * w.GetDamageMultiplier(
-					 ArmorResilience);
 			}
 			// No shield, apply full damage directly to hull
 			else
