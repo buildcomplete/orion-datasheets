@@ -70,8 +70,6 @@ namespace Models
 				// The damage against the Shield unaffected by the armor rating.
 				ShieldPoints -= w.DamageVsShield(Shield.Absorption);
 
-				// But, if enveloping modifier is enabled... the carry over damage calculation might be more complex?
-				// right now i ignore the problem and pretend there is nothing strange about it...
 				if (ShieldPoints < 0)
 				{
 					double remainingDamage = -ShieldPoints;
