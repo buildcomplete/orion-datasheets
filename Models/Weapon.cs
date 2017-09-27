@@ -51,6 +51,7 @@ namespace Models
 				+ (EnabledModifiers.HasFlag(WeaponModifiers.heavy_mount) ? 1 : 0)
 				+ (EnabledModifiers.HasFlag(WeaponModifiers.point_defense) ? -0.5 : 0)
 				+ (EnabledModifiers.HasFlag(WeaponModifiers.mirv) ? -0.5 : 0)
+				+ (EnabledModifiers.HasFlag(WeaponModifiers.overloaded) ? 1 : 0)
 				);
 		}
 
@@ -66,7 +67,9 @@ namespace Models
 			get => Cooldown * (1
 				+ (EnabledModifiers.HasFlag(WeaponModifiers.auto_fire) ? -0.50 : 0)
 				+ (EnabledModifiers.HasFlag(WeaponModifiers.point_defense) ? -0.25 : 0)
-				+ (EnabledModifiers.HasFlag(WeaponModifiers.heavy_mount) ? 0.25 : 0));
+				+ (EnabledModifiers.HasFlag(WeaponModifiers.heavy_mount) ? 0.25 : 0)
+				+ (EnabledModifiers.HasFlag(WeaponModifiers.overloaded) ? 0.25 : 0)
+				);
 		}
 
 
@@ -83,6 +86,9 @@ namespace Models
 				+ (EnabledModifiers.HasFlag(WeaponModifiers.eccm) ? 0.25 : 0)
 				+ (EnabledModifiers.HasFlag(WeaponModifiers.fast) ? 0.25 : 0)
 				+ (EnabledModifiers.HasFlag(WeaponModifiers.mirv) ? 0.50 : 0)
+
+				+ (EnabledModifiers.HasFlag(WeaponModifiers.overloaded) ? 0.50 : 0)
+				+ (EnabledModifiers.HasFlag(WeaponModifiers.semi_guided) ? 0.25 : 0)
 				);
 		}
 
