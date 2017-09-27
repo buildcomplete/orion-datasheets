@@ -76,7 +76,7 @@ namespace Models
 					ShieldPoints = 0;
 
 					// apply remaining damage without shield damage boost for example from enveloping
-					double pctDamageRemaining = remainingDamage / w.ModShieldDamage;
+					double pctDamageRemaining = remainingDamage / w.DamageVsShield(Shield.Absorption);
 					HullPoints -= pctDamageRemaining * w.DamageVsArmor(ArmorResilience);
 				}
 

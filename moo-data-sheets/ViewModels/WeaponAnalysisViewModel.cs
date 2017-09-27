@@ -104,10 +104,6 @@ namespace moo_data_sheets.ViewModels
 			{
 				LoadErrorMessage = T.Exception?.Message;
 			});
-
-			//DamagePlot = new PlotModel { Title = "Damage Profile" };
-			//DamagePlot.Series.Add(new FunctionSeries(Math.Cos, 0, 10, 0.05, "cos(x)"));
-
 		}
 
 		private void RaiseCalculatedWeaponProptiesChanged()
@@ -190,19 +186,27 @@ namespace moo_data_sheets.ViewModels
 			set => SetProperty(ref _loadErrorMessage, value);
 		}
 
+		private double ModArmorResilience() => 
+			SelectedArmor != null 
+			? SelectedArmor.Resilience 
+				* (ModHeavyArmor 
+					? 2 
+					: 1) 
+			: 0;
+
 		public string DamageVsArmor
 		{
-			get => SelectedWeapon?.DamageVsArmor(SelectedArmor != null ? SelectedArmor.Resilience : 0).ToString("0.00");
+			get => SelectedWeapon?.DamageVsArmor(ModArmorResilience()).ToString("0.00");
 		}
 
 		public string DpsVsArmor
 		{
-			get => SelectedWeapon?.DpsVsArmor(SelectedArmor!= null ? SelectedArmor.Resilience : 0).ToString("0.00");
+			get => SelectedWeapon?.DpsVsArmor(ModArmorResilience()).ToString("0.00");
 		}
 
 		public string MultiplierVsArmor
 		{
-			get => (SelectedWeapon?.Model.GetDamageMultiplier(SelectedArmor?.Model.Resilience ?? 0) ?? 0).ToString("0.00");
+			get => SelectedWeapon?.Model.GetDamageMultiplier(ModArmorResilience()).ToString("0.00");
 		}
 
 

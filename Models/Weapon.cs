@@ -42,50 +42,68 @@ namespace Models
 		public ShipConfiguration Target { get; set; }
 
 		public override string ToString()
-			=> $"{Name} - Damage: ({ModDamage}x{DamageProcs}) / {ModCooldown} - AP: {ModArmorPenetration}, SP:{(ShieldPiercing ? "YES" : "NO")} - {Type}";
+			=> $"{Name} - Damage: ({ModDamage}x{ModDamageProcs}) / {ModCooldown} - AP: {ModArmorPenetration}, SP:{(ShieldPiercing ? "YES" : "NO")} - {Type}";
 
+		#region Properties with modifiers
+		public double ModDamage
+		{
+			get => Damage * (1
+				+ (EnabledModifiers.HasFlag(WeaponModifiers.heavy_mount) ? 1 : 0)
+				+ (EnabledModifiers.HasFlag(WeaponModifiers.point_defense) ? -0.5 : 0)
+				+ (EnabledModifiers.HasFlag(WeaponModifiers.mirv) ? -0.5 : 0)
+				);
+		}
+
+		public double ModShieldDamage
+		{
+			get => ModDamage * (1
+				+ (EnabledModifiers.HasFlag(WeaponModifiers.enveloping) ? 0.5 : 0));
+		}
+
+
+		public double ModCooldown
+		{
+			get => Cooldown * (1
+				+ (EnabledModifiers.HasFlag(WeaponModifiers.auto_fire) ? -0.50 : 0)
+				+ (EnabledModifiers.HasFlag(WeaponModifiers.point_defense) ? -0.25 : 0)
+				+ (EnabledModifiers.HasFlag(WeaponModifiers.heavy_mount) ? 0.25 : 0));
+		}
+
+
+		public double ModSize
+		{
+			get => Size * (1
+				+ (EnabledModifiers.HasFlag(WeaponModifiers.point_defense) ? -0.66 : 0)
+				+ (EnabledModifiers.HasFlag(WeaponModifiers.heavy_mount) ? 0.50 : 0)
+				+ (EnabledModifiers.HasFlag(WeaponModifiers.enveloping) ? 0.25 : 0)
+				+ (EnabledModifiers.HasFlag(WeaponModifiers.auto_fire) ? 0.50 : 0)
+				+ (EnabledModifiers.HasFlag(WeaponModifiers.continuous_fire) ? 0.50 : 0)
+				
+				+ (EnabledModifiers.HasFlag(WeaponModifiers.heavy_armor) ? 0.25 : 0)
+				+ (EnabledModifiers.HasFlag(WeaponModifiers.eccm) ? 0.25 : 0)
+				+ (EnabledModifiers.HasFlag(WeaponModifiers.fast) ? 0.25 : 0)
+				+ (EnabledModifiers.HasFlag(WeaponModifiers.mirv) ? 0.50 : 0)
+				);
+		}
+
+		public double ModArmorPenetration
+		{
+			get => ArmorPenetration * (1
+				+ (EnabledModifiers.HasFlag(WeaponModifiers.continuous_fire) ? 0.5 : 0));
+		}
+
+		public double ModDamageProcs
+		{
+			get => EnabledModifiers.HasFlag(WeaponModifiers.mirv) 
+				? 4 
+				: DamageProcs;
+		}
+		#endregion
 
 		// Gets damage multiplier.
 		// Formula from user WhatIsSol from steamcommunity thread
 		// Weapon.Damage * Max((Weapon.Penetration / Target.Resilience), 0.75)
 		// http://steamcommunity.com/app/298050/discussions/0/154642447922416143/
-		public double ModDamage
-		{
-			get => Damage
-				* (EnabledModifiers.HasFlag(WeaponModifiers.heavy_mount) ? 2 : 1)
-				// calculation damage vs ship, so pd disables weapon.
-				* (EnabledModifiers.HasFlag(WeaponModifiers.point_defense) ? 0 : 1);
-		}
-
-		public double ModShieldDamage
-		{
-			get => ModDamage
-				* (EnabledModifiers.HasFlag(WeaponModifiers.enveloping) ? 1.5 : 1);
-		}
-
-		public double ModCooldown
-		{
-			get => Cooldown 
-				* (EnabledModifiers.HasFlag(WeaponModifiers.auto_fire) ? 0.5 : 1) 
-				* (EnabledModifiers.HasFlag(WeaponModifiers.heavy_mount) ? 1.25:1);
-		}
-
-		public double ModSize
-		{
-			get => Size
-				* (EnabledModifiers.HasFlag(WeaponModifiers.point_defense) ? 0.44 : 1)
-				* (EnabledModifiers.HasFlag(WeaponModifiers.heavy_mount) ? 1.5 : 1)
-				* (EnabledModifiers.HasFlag(WeaponModifiers.enveloping) ? 1.25 : 1)
-				* (EnabledModifiers.HasFlag(WeaponModifiers.auto_fire) ? 1.5 : 1)
-				* (EnabledModifiers.HasFlag(WeaponModifiers.continuous_fire) ? 1.5 : 1);
-		}
-
-		public double ModArmorPenetration
-		{
-			get => ArmorPenetration
-				* (EnabledModifiers.HasFlag(WeaponModifiers.continuous_fire) ? 1.5 : 1);
-		}
-
 		public double GetDamageMultiplier(double armorResilience)
 			=> armorResilience >= 1.0
 				? Math.Max(ModArmorPenetration / armorResilience, 0.75)
@@ -98,13 +116,13 @@ namespace Models
 		/// <param name="resilience"></param>
 		/// <returns>Weapon Damage against armor with specified resilience</returns>
 		public double DamageVsArmor(double resilience)
-			=> ModDamage * GetDamageMultiplier(resilience) * DamageProcs;
+			=> ModDamage * GetDamageMultiplier(resilience) * ModDamageProcs;
 
 		public double DpsVs(double armorResilience = 0)
 			=> DamageVsArmor(armorResilience) / ModCooldown;
 
 		public double DamageVsShield(double absorption)
-			=> Math.Max(0, (ModShieldDamage - absorption)) * DamageProcs;
+			=> Math.Max(0, (ModShieldDamage - absorption)) * ModDamageProcs;
 
 		double _heat = -1;
 		public void Tick(double dt)
@@ -134,17 +152,16 @@ namespace Models
 	public enum WeaponModifiers
 	{
 		None = 0,
-		point_defense		= 0x001,
-		continuous_fire	= 0x002, 
-		auto_fire			= 0x004,
-		heavy_mount			= 0x008,
-		enveloping			= 0x010,
-		heavy_armor			= 0x020,
-		eccm					= 0x040,
-		fast					= 0x080,
-		mirv					= 0x100,
-		overloaded			= 0x200,
-		semi_guided			= 0x400,
+		point_defense = 0x001,
+		continuous_fire = 0x002,
+		auto_fire = 0x004,
+		heavy_mount = 0x008,
+		enveloping = 0x010,
+		heavy_armor = 0x020,
+		eccm = 0x040,
+		fast = 0x080,
+		mirv = 0x100,
+		overloaded = 0x200,
+		semi_guided = 0x400,
 	}
-
 }

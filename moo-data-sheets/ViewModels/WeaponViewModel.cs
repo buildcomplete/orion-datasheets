@@ -31,8 +31,8 @@ namespace moo_data_sheets.ViewModels
 		public string Size { get => _weapon.ModSize.ToString("0.00"); }
 
 		public string DamageText { get =>
-			_weapon.DamageProcs > 1
-				? $"{_weapon.ModDamage} x {_weapon.DamageProcs} ({_weapon.ModDamage * _weapon.DamageProcs})"
+			_weapon.ModDamageProcs > 1
+				? $"{_weapon.ModDamage} x {_weapon.ModDamageProcs} ({_weapon.ModDamage * _weapon.ModDamageProcs})"
 				: $"{_weapon.ModDamage}";
 		}
 		public string ArmorPenetration { get => _weapon.ModArmorPenetration.ToString("0.00"); }
