@@ -105,7 +105,6 @@ namespace Models
 
 			if (_shieldHeat <= 0 && ShieldPoints < ShieldMaxHitPoints)
 			{
-				// Whats the recharge rate???
 				double carge_second = (Shield.RechargeRate / 10.0) * ShieldMaxHitPoints;
 
 				ShieldPoints = Math.Min(
