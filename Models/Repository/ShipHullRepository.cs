@@ -20,6 +20,7 @@ namespace Models.Repository
 					Name = tokens[0],
 					Strength = double.Parse(tokens[1]),
 					Capacity = double.Parse(tokens[2]),
+					Tier = int.Parse(tokens[3])
 				});
 			}
 		}

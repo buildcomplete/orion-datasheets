@@ -1,11 +1,8 @@
-(Armor base),Armor Resilience,baseCost,costHullFactor,tacticalArmorMultiplier,missileArmorMultiplier
-Raw DPS,0.00,0,1,1,1
-Titanium,5.00,2,2,1,1
-Tritanium,10.00,4,2,1.5,1.2
-Neutronium,15.00,6,2,2,1.4
-Zortrium,20.00,8,2,2.5,1.6
-Adamantium Armor,25.00,10,2,3,1.8
-Xentronium,30.00,5,2,2.25,2
-Zortrium (HA),40.00,8,2,2.5,1.6
-Adamantium Armor (HA),50.00,10,2,3,1.8
-Xentronium (HA),60.00,5,2,2.25,2
+(Armor base),Armor Resilience,baseCost,costHullFactor,tacticalArmorMultiplier,missileArmorMultiplier,tier
+Raw DPS,0.00,0,1,1,1,0
+Titanium,5.00,2,2,1,1,0
+Tritanium,10.00,4,2,1.5,1.2,3
+Neutronium,15.00,6,2,2,1.4,5
+Zortrium,20.00,8,2,2.5,1.6,7
+Adamantium Armor,25.00,10,2,3,1.8,9
+Xentronium,30.00,5,2,2.25,2,8

@@ -25,7 +25,7 @@ namespace moo_data_sheets.ViewModels
 
 		public override string ToString()
 		{
-			return $"{Name} : {Absortion}";
+			return $"{Name} : {Absortion} [{_shield.Tier}]";
 		}
 
 	}

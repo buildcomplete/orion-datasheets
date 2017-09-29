@@ -26,6 +26,7 @@ namespace moo_data_sheets.ViewModels
 		public Weapon Model { get => _weapon; }
 
 		public string Name { get => _weapon.Name.ToUpper(); }
+		public int Tier { get => _weapon.Tier; }
 
 		public string Cooldown { get => _weapon.ModCooldown.ToString("0.00"); }
 		public string Size { get => _weapon.ModSize.ToString("0.00"); }

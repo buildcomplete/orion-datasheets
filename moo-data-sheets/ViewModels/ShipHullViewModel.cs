@@ -24,7 +24,7 @@ namespace moo_data_sheets.ViewModels
 
 		public override string ToString()
 		{
-			return $"{Name} : {Strength}";
+			return $"{Name} : {Strength} [{_hull.Tier}]";
 		}
 
 	}

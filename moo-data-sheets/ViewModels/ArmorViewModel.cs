@@ -26,7 +26,7 @@ namespace moo_data_sheets.ViewModels
 
 		public override string ToString()
 		{
-			return $"{Name} : {Resilience}";
+			return $"{Name} : {Resilience} [{_armor.Tier}]";
 		}
 
 	}

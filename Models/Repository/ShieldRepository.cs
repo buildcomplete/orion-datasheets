@@ -25,7 +25,8 @@ namespace Models.Repository
 					Cooldown = double.Parse(tokens[4]),
 					BaseSize = double.Parse(tokens[5]),
 					SizeHullFactor = double.Parse(tokens[6]),
-					AssetFilename = tokens[7]
+					AssetFilename = tokens[7],
+					Tier = int.Parse(tokens[8])
 				});
 			}
 		}

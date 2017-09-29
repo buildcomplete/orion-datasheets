@@ -104,6 +104,7 @@ namespace Models
 				? 4 
 				: DamageProcs;
 		}
+		public int Tier { get; internal set; }
 		#endregion
 
 		// Gets damage multiplier.

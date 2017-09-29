@@ -16,5 +16,6 @@ namespace Models
 		public double BaseSize { get; set; }
 		public double SizeHullFactor { get; set; }
 		public string AssetFilename { get; set; }
+		public int Tier { get; internal set; }
 	}
 }

@@ -25,7 +25,8 @@ namespace Models.Repository
 					BaseCost = double.Parse(tokens[2]),
 					CostHullFactor = double.Parse(tokens[3]),
 					TacticalArmorMultiplier = double.Parse(tokens[4]),
-					MissileArmorMultiplier = double.Parse(tokens[5])
+					MissileArmorMultiplier = double.Parse(tokens[5]),
+					Tier = int.Parse(tokens[6])
 				});
 			}
 		}

@@ -30,7 +30,8 @@ namespace Models.Repository
 					Cost = double.Parse(tokens[6]),
 					Size = double.Parse(tokens[7]),
 					Type = (WeaponType)Enum.Parse(typeof(WeaponType),tokens[8]),
-					PossibleModifiers = modifiers
+					PossibleModifiers = modifiers,
+					Tier = int.Parse(tokens[10])
 				});
 			}
 		}

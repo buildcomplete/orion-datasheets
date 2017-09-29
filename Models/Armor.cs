@@ -19,5 +19,6 @@ namespace Models
 		public double TacticalArmorMultiplier { get; set; }
 
 		public double MissileArmorMultiplier { get; set; }
+		public int Tier { get; internal set; }
 	}
 }

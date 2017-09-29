@@ -1,6 +1,7 @@
-Name,Hull strength,Hull Capacity
-Frigate,95,65
-Destroyer,165,110
-Cruiser,325,250
-Battleship,750,550
-Titan,1650,1400
+Ship,Hull strength,Hull Capacity,tier
+Frigate,95,65,0
+Destroyer,165,110,1
+Cruiser,325,250,3
+Battleship,750,550,6
+Titan,1650,1400,8
+Doom star,3375,3500,11

@@ -53,11 +53,11 @@
 						<TextBlock  Text="Ship Hull" />
 						<ComboBox  ItemsSource="{x:Bind ViewModel.ShipHulls, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.SelectedHull, Mode=TwoWay}"  />
 					</StackPanel>
-					<Grid>
+					<!--<Grid>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition/>
 							<ColumnDefinition/>
-						</Grid.ColumnDefinitions>
+						</Grid.ColumnDefinitions>-->
 						<StackPanel Orientation="Horizontal">
 							<TextBlock  Text="Shield" />
 							<ComboBox ItemsSource="{x:Bind ViewModel.ShieldTypes, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.SelectedShield, Mode=TwoWay}"  />
@@ -67,7 +67,7 @@
 							<TextBlock  Text="Armor" />
 							<ComboBox  ItemsSource="{x:Bind ViewModel.ArmorTypes, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.SelectedArmor, Mode=TwoWay}"  />
 						</StackPanel>
-					</Grid>
+					<!--</Grid>-->
 
 					<Grid>
 						<Grid.ColumnDefinitions>

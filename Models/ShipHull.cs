@@ -11,6 +11,6 @@ namespace Models
 		public string Name { get; set; }
 		public double Strength { get; set; }
 		public double Capacity { get; set; }
-		
+		public int Tier { get; internal set; }
 	}
 }
