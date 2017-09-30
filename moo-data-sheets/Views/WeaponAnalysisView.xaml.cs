@@ -7,6 +7,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -27,6 +28,9 @@ namespace moo_data_sheets.Views
 		public WeaponAnalysisView()
 		{
 			this.InitializeComponent();
+			_plot.SeriesColors = new LiveCharts.Uwp.ColorsCollection();
+			_plot.SeriesColors.Add(Colors.Red);
+			_plot.SeriesColors.Add(Colors.Blue);
 		}
 
 	}

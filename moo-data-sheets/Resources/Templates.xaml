@@ -71,4 +71,11 @@
 			</Grid>
 		</Border>
 	</DataTemplate>
+	<DataTemplate x:Key="WeaponModifiersListViewItemsTemplate">
+		<StackPanel Width="60" Orientation="Horizontal">
+			<CheckBox IsChecked="{Binding IsSet, Mode=TwoWay}" >
+				<Image Width="24" Height="24" Source="{Binding ImageFile, Mode=OneWay}"/>
+			</CheckBox>
+		</StackPanel>
+	</DataTemplate>
 </ResourceDictionary>

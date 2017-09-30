@@ -56,10 +56,10 @@
 						<ColumnDefinition></ColumnDefinition>
 						<ColumnDefinition></ColumnDefinition>
 					</Grid.ColumnDefinitions>
-					<Views:WeaponAnalysisView></Views:WeaponAnalysisView>
-					<Views:WeaponAnalysisView Grid.Column="1"></Views:WeaponAnalysisView>
-					<Views:WeaponAnalysisView Grid.Column="2"></Views:WeaponAnalysisView>
-					<Views:WeaponAnalysisView Grid.Column="3"></Views:WeaponAnalysisView>
+					<Views:WeaponAnalysisView Margin="2"></Views:WeaponAnalysisView>
+					<Views:WeaponAnalysisView Margin="2" Grid.Column="1"></Views:WeaponAnalysisView>
+					<Views:WeaponAnalysisView Margin="2" Grid.Column="2"></Views:WeaponAnalysisView>
+					<Views:WeaponAnalysisView Margin="2" Grid.Column="3"></Views:WeaponAnalysisView>
 				</Grid>
 			</PivotItem>
 			<PivotItem Header="Morale">

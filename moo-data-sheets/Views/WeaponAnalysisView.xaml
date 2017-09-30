@@ -20,83 +20,81 @@
 		</Grid.RowDefinitions>
 		<StackPanel>
 			<TextBlock Text="{x:Bind ViewModel.LoadErrorMessage, Mode=OneWay}" />
-
-			<ComboBox HorizontalAlignment="Stretch" ItemsSource="{x:Bind ViewModel.WeaponCountRange}" SelectedItem="{x:Bind ViewModel.WeaponCount, Mode=TwoWay}"></ComboBox>
-			<ComboBox Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{x:Bind ViewModel.Weapons}" SelectedItem="{x:Bind ViewModel.SelectedWeapon, Mode=TwoWay}" ItemTemplate="{StaticResource WeaponItemsTemplate}" />
-			<ListView ItemsSource="{x:Bind ViewModel.SelectedWeapon.PossibleModifiers, Mode=TwoWay}">
+			<ComboBox 
+				HorizontalAlignment="Stretch" 
+				ItemsSource="{x:Bind ViewModel.WeaponCountRange}" 
+				SelectedItem="{x:Bind ViewModel.WeaponCount, Mode=TwoWay}" />
+			<ComboBox 
+				Grid.Column="1" 
+				HorizontalAlignment="Stretch" 
+				ItemsSource="{x:Bind ViewModel.Weapons}" 
+				SelectedItem="{x:Bind ViewModel.SelectedWeapon, Mode=TwoWay}" 
+				ItemTemplate="{StaticResource WeaponItemsTemplate}" />
+			<ListView 
+				ItemsSource="{x:Bind ViewModel.SelectedWeapon.PossibleModifiers, Mode=TwoWay}"
+				ItemTemplate="{StaticResource WeaponModifiersListViewItemsTemplate}">
 				<ListView.ItemsPanel>
 					<ItemsPanelTemplate>
 						<StackPanel Orientation="Horizontal"/>
 					</ItemsPanelTemplate>
 				</ListView.ItemsPanel>
-				<ListView.ItemTemplate>
-					<DataTemplate>
-						<StackPanel Width="60" Orientation="Horizontal">
-							<CheckBox IsChecked="{Binding IsSet, Mode=TwoWay}" >
-								<Image Width="24" Height="24" Source="{Binding ImageFile, Mode=OneWay}"/>
-							</CheckBox>
-						</StackPanel>
-					</DataTemplate>
-				</ListView.ItemTemplate>
 			</ListView>
 			<Border>
 				<StackPanel>
 					<StackPanel Orientation="Horizontal">
-						<TextBlock  Text="Total Space: " />
+						<TextBlock  Text="Total Space used: " />
 						<TextBlock  Text="{x:Bind ViewModel.SelectedWeaponTotalSpace, Mode=OneWay}" />
 					</StackPanel>
 				</StackPanel>
 			</Border>
 			<Border>
-				<StackPanel>
-					<StackPanel Orientation="Horizontal">
-						<TextBlock  Text="Ship Hull" />
-						<ComboBox  ItemsSource="{x:Bind ViewModel.ShipHulls, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.SelectedHull, Mode=TwoWay}"  />
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="2*"/>
+						<ColumnDefinition Width="3*"/>
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition/>
+						<RowDefinition/>
+						<RowDefinition/>
+						<RowDefinition/>
+						<RowDefinition/>
+					</Grid.RowDefinitions>
+
+					<TextBlock Foreground="Red" Grid.Row="0" Grid.Column="0" Text="Hull" />
+					<ComboBox  Foreground="Red" Grid.Row="0" Grid.Column="1" ItemsSource="{x:Bind ViewModel.ShipHulls, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.SelectedHull, Mode=TwoWay}" HorizontalAlignment="Stretch" />
+
+					<TextBlock Foreground="Red" Grid.Row="1" Grid.Column="0" Text="Armor" />
+					<ComboBox Foreground="Red" Grid.Row="1" Grid.Column="1" ItemsSource="{x:Bind ViewModel.ArmorTypes, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.SelectedArmor, Mode=TwoWay}" HorizontalAlignment="Stretch" />
+
+					<TextBlock Foreground="Blue" Grid.Row="2" Grid.Column="0" Text="Shield" />
+					<ComboBox Foreground="Blue" Grid.Row="2" Grid.Column="1" ItemsSource="{x:Bind ViewModel.ShieldTypes, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.SelectedShield, Mode=TwoWay}" HorizontalAlignment="Stretch" />
+
+					<StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal">
+						<TextBlock Text="Heavy Armor:" Margin="0 0 8 0"/>
+						<CheckBox IsChecked="{x:Bind ViewModel.ModHeavyArmor, Mode=TwoWay}" ></CheckBox>
 					</StackPanel>
-					<!--<Grid>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition/>
-							<ColumnDefinition/>
-						</Grid.ColumnDefinitions>-->
-						<StackPanel Orientation="Horizontal">
-							<TextBlock  Text="Shield" />
-							<ComboBox ItemsSource="{x:Bind ViewModel.ShieldTypes, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.SelectedShield, Mode=TwoWay}"  />
-						</StackPanel>
 
-						<StackPanel Grid.Column="1" Orientation="Horizontal">
-							<TextBlock  Text="Armor" />
-							<ComboBox  ItemsSource="{x:Bind ViewModel.ArmorTypes, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.SelectedArmor, Mode=TwoWay}"  />
-						</StackPanel>
-					<!--</Grid>-->
-
-					<Grid>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition/>
-							<ColumnDefinition/>
-						</Grid.ColumnDefinitions>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock  Text="Heavy Armor:" Margin="0 0 8 0"/>
-							<CheckBox IsChecked="{x:Bind ViewModel.ModHeavyArmor, Mode=TwoWay}" ></CheckBox>
-						</StackPanel>
-
-						<StackPanel Grid.Column="1" Orientation="Horizontal">
-							<TextBlock  Text="Reinforced Hull:" Margin="0 0 8 0" />
-							<CheckBox IsChecked="{x:Bind ViewModel.ModReinforcedHull, Mode=TwoWay}" ></CheckBox>
-						</StackPanel>
-					</Grid>
-
-					<StackPanel Orientation="Horizontal">
-						<TextBlock  Text="VS Armor: " />
-						<TextBlock  Text="{x:Bind ViewModel.DamageVsArmor, Mode=OneWay}" />
-						<TextBlock  Text=" (" />
-						<TextBlock  Text="{x:Bind ViewModel.MultiplierVsArmor, Mode=OneWay}" />
-						<TextBlock  Text=" ) " />
+					<StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
+						<TextBlock Text="Reinforced Hull:" Margin="0 0 8 0" />
+						<CheckBox IsChecked="{x:Bind ViewModel.ModReinforcedHull, Mode=TwoWay}" ></CheckBox>
 					</StackPanel>
-				</StackPanel>
 
+					<StackPanel Grid.Row="4" Grid.ColumnSpan="2" Orientation="Horizontal">
+						<TextBlock Text="VS Armor: " />
+						<TextBlock Text="{x:Bind ViewModel.DamageVsArmor, Mode=OneWay}" />
+						<TextBlock Text=" (" />
+						<TextBlock Text="{x:Bind ViewModel.MultiplierVsArmor, Mode=OneWay}" />
+						<TextBlock Text=" ) " />
+					</StackPanel>
+				</Grid>
 			</Border>
 		</StackPanel>
-		<!--<oxy:PlotView Grid.Row="1" Model="{x:Bind ViewModel.DamagePlot}"/>-->
-		<lvc:CartesianChart DisableAnimations="true" Grid.Row="1" Series="{x:Bind ViewModel.SeriesCollection, Mode=OneWay}" />
+		<lvc:CartesianChart 
+			x:Name="_plot"
+			DisableAnimations="true" 
+			Grid.Row="1" 
+			Series="{x:Bind ViewModel.SeriesCollection, Mode=OneWay}" 
+			/>
 	</Grid>
 </UserControl>

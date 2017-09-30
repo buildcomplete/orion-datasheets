@@ -8,6 +8,7 @@ using LiveCharts.Uwp;
 using LiveCharts.Defaults;
 using System.Linq;
 using System.Collections.Generic;
+using Windows.UI;
 
 namespace moo_data_sheets.ViewModels
 {
