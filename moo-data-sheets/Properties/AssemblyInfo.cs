@@ -5,10 +5,10 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("moo-data-sheets")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Master of Orion - Data sheets")]
+[assembly: AssemblyDescription("Data sheets and weapon analysis for master of Orion")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("N/A")]
 [assembly: AssemblyProduct("moo-data-sheets")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
